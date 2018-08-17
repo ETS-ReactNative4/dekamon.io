@@ -1,5 +1,4 @@
-/* eslint-disable prefer-destructuring */
-import { chance, randomRange, randomArray } from './math'
+import { chance, randomRange } from './math'
 import gameConfiguration from './gameConfiguration'
 
 const width = gameConfiguration.mapWidth
@@ -17,7 +16,7 @@ function generateMap(entries = {}) {
     const row = []
 
     for (let i = 0; i < width; i++) {
-      row.push(0)
+      row.push('')
     }
 
     tiles.push(row)
@@ -184,7 +183,34 @@ function generateMap(entries = {}) {
 
   groups.forEach(group => {
     group.forEach(p => {
-      tiles[p.y][p.x] = 1
+      tiles[p.y][p.x] = 'UNASSIGNED'
+    })
+  })
+
+  tiles.forEach((row, y) => {
+    row.forEach((tile, x) => {
+      if (tile) {
+        const hasNorth = tiles[y - 1] && tiles[y - 1][x]
+        const hasSouth = tiles[y + 1] && tiles[y + 1][x]
+        const hasWest = tiles[y][x - 1]
+        const hasEast = tiles[y][x + 1]
+
+        if (hasNorth && hasSouth && hasWest && hasEast) tiles[y][x] = '09'
+        else if (hasNorth && hasSouth && hasWest) tiles[y][x] = '02'
+        else if (hasNorth && hasSouth && hasEast) tiles[y][x] = '03'
+        else if (hasNorth && hasWest && hasEast) tiles[y][x] = '04'
+        else if (hasSouth && hasWest && hasEast) tiles[y][x] = '01'
+        else if (hasNorth && hasSouth) tiles[y][x] = chance(0.5) ? '05' : '06'
+        else if (hasWest && hasEast) tiles[y][x] = chance(0.5) ? '07' : '08'
+        else if (hasNorth && hasWest) tiles[y][x] = '13'
+        else if (hasNorth && hasEast) tiles[y][x] = '12'
+        else if (hasSouth && hasWest) tiles[y][x] = '11'
+        else if (hasSouth && hasEast) tiles[y][x] = '10'
+        else if (hasNorth) tiles[y][x] = '15'
+        else if (hasSouth) tiles[y][x] = '17'
+        else if (hasWest) tiles[y][x] = '14'
+        else if (hasEast) tiles[y][x] = '16'
+      }
     })
   })
 
@@ -192,125 +218,6 @@ function generateMap(entries = {}) {
     entries,
     tiles,
   }
-
 }
-// function generateMap(entries = {}) {
-//   const tiles = []
-//
-//   for (let j = 0; j < height; j++) {
-//     const row = []
-//
-//     for (let i = 0; i < width; i++) {
-//       row.push(false)
-//     }
-//
-//     tiles.push(row)
-//   }
-//
-//   if (typeof entries.north === 'undefined' && chance(0.6)) entries.north = randomRange(2, width - 3)
-//   if (typeof entries.south === 'undefined' && chance(0.6)) entries.south = randomRange(2, width - 3)
-//   if (typeof entries.west === 'undefined' && chance(0.6)) entries.west = randomRange(2, height - 3)
-//   if (typeof entries.east === 'undefined' && chance(0.6)) entries.east = randomRange(2, height - 3)
-//
-//   const pathPoints = []
-//   const pointsToJoin = []
-//
-//
-//   if (entries.north) {
-//     const offset = randomRange(2, 7)
-//     let i
-//     for (i = 0; i < offset; i++) {
-//       pathPoints.push([entries.north, i])
-//     }
-//     i--
-//
-//     pointsToJoin.push([entries.north, i])
-//   }
-//   if (entries.south) {
-//     const offset = randomRange(2, 7)
-//     let i
-//     for (i = 0; i < offset; i++) {
-//       pathPoints.push([entries.south, height - i - 1])
-//     }
-//     i--
-//
-//     pointsToJoin.push([entries.south, height - i - 1])
-//   }
-//   if (entries.west) {
-//     const offset = randomRange(2, 7)
-//     let i
-//     for (i = 0; i < offset; i++) {
-//       pathPoints.push([i, entries.west])
-//     }
-//     i--
-//
-//     pointsToJoin.push([i, entries.west])
-//   }
-//   if (entries.east) {
-//     const offset = randomRange(2, 7)
-//     let i
-//     for (i = 0; i < offset; i++) {
-//       pathPoints.push([width - i - 1, entries.east])
-//     }
-//     i--
-//
-//     pointsToJoin.push([width - i - 1, entries.east])
-//   }
-//
-//   while (pointsToJoin.length >= 2) {
-//     const p1 = pointsToJoin.shift()
-//     const p2 = pointsToJoin.shift()
-//
-//     const firstDirection = chance(0.5) ? 'x' : 'y'
-//
-//     const currentPathPoints = []
-//
-//     if (firstDirection === 'x') {
-//       let diff = p2[0] - p1[0]
-//       let signOfDiff = diff / Math.abs(diff)
-//       let i
-//
-//       for (i = p1[0]; signOfDiff > 0 ? i < p2[0] : i > p2[0]; i += signOfDiff) {
-//         currentPathPoints.push([i, p1[1]])
-//       }
-//
-//       diff = p2[1] - p1[1]
-//       signOfDiff = diff / Math.abs(diff)
-//
-//       for (let j = p1[1]; signOfDiff > 0 ? j < p2[1] : j > p2[1]; j += signOfDiff) {
-//         currentPathPoints.push([i, j])
-//       }
-//     }
-//     else {
-//       let diff = p2[1] - p1[1]
-//       let signOfDiff = diff / Math.abs(diff)
-//       let i
-//
-//       for (i = p1[1]; signOfDiff > 0 ? i < p2[1] : i > p2[1]; i += signOfDiff) {
-//         currentPathPoints.push([p1[0], i])
-//       }
-//
-//       diff = p2[0] - p1[0]
-//       signOfDiff = diff / Math.abs(diff)
-//
-//       for (let j = p1[0]; signOfDiff > 0 ? j < p2[0] : j > p2[0]; j += signOfDiff) {
-//         currentPathPoints.push([j, i])
-//       }
-//
-//     }
-//     pointsToJoin.push(randomArray(currentPathPoints))
-//     pathPoints.push(...currentPathPoints)
-//   }
-//
-//   pathPoints.forEach(p => {
-//     // console.log(p)
-//     tiles[p[1]][p[0]] = true
-//   })
-//
-//   return {
-//     entries,
-//     tiles,
-//   }
-// }
 
 export default generateMap
