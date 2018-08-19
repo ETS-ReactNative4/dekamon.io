@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import gameConfiguration from '../lib/gameConfiguration'
 
-class GlobalMap extends React.Component {
+class WorldMap extends React.Component {
 
   renderMapSection(x, y) {
     const { maps } = this.props
@@ -12,8 +12,8 @@ class GlobalMap extends React.Component {
     const divStyle = {
       borderBottom: '1px solid lightgrey',
       borderRight: '1px solid lightgrey',
-      width: gameConfiguration.mapWidth * 2,
-      height: gameConfiguration.mapHeight * 2,
+      width: gameConfiguration.worldWidth * 2,
+      height: gameConfiguration.worldHeight * 2,
     }
 
     if (!map) {
@@ -83,4 +83,4 @@ const mapStateToProps = s => ({
   currentMap: s.currentMap,
 })
 
-export default connect(mapStateToProps)(GlobalMap)
+export default connect(mapStateToProps)(WorldMap)

@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './App.css'
 
-import MapSection from './components/MapSection'
-import GlobalMap from './components/GlobalMap'
+import World from './components/World'
+import WorldMap from './components/WorldMap'
 import PositionButtons from './components/PositionButtons'
 import 'flexpad/dist/flexpad.min.css'
 
@@ -15,10 +15,12 @@ class App extends Component {
     // const { hero } = this.props
 
     return (
-      <div className="App y8">
-        <MapSection />
-        <PositionButtons />
-        <GlobalMap />
+      <div className="App x4">
+        <div>
+          <WorldMap />
+          <PositionButtons />
+        </div>
+        <World />
       </div>
     )
   }

@@ -1,4 +1,4 @@
 export default {
-  mapWidth: 20,
-  mapHeight: 15,
+  worldWidth: 20,
+  worldHeight: 10,
 }

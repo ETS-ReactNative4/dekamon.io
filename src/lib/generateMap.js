@@ -1,8 +1,8 @@
 import { chance, randomRange } from './math'
 import gameConfiguration from './gameConfiguration'
 
-const width = gameConfiguration.mapWidth
-const height = gameConfiguration.mapHeight
+const width = gameConfiguration.worldWidth
+const height = gameConfiguration.worldHeight
 
 function computeDistance(p1, p2) {
   return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y)
@@ -195,21 +195,21 @@ function generateMap(entries = {}) {
         const hasWest = tiles[y][x - 1]
         const hasEast = tiles[y][x + 1]
 
-        if (hasNorth && hasSouth && hasWest && hasEast) tiles[y][x] = '09'
-        else if (hasNorth && hasSouth && hasWest) tiles[y][x] = '02'
-        else if (hasNorth && hasSouth && hasEast) tiles[y][x] = '03'
-        else if (hasNorth && hasWest && hasEast) tiles[y][x] = '04'
-        else if (hasSouth && hasWest && hasEast) tiles[y][x] = '01'
-        else if (hasNorth && hasSouth) tiles[y][x] = chance(0.5) ? '05' : '06'
-        else if (hasWest && hasEast) tiles[y][x] = chance(0.5) ? '07' : '08'
-        else if (hasNorth && hasWest) tiles[y][x] = '13'
-        else if (hasNorth && hasEast) tiles[y][x] = '12'
-        else if (hasSouth && hasWest) tiles[y][x] = '11'
-        else if (hasSouth && hasEast) tiles[y][x] = '10'
-        else if (hasNorth) tiles[y][x] = '15'
-        else if (hasSouth) tiles[y][x] = '17'
-        else if (hasWest) tiles[y][x] = '14'
-        else if (hasEast) tiles[y][x] = '16'
+        if (hasNorth && hasSouth && hasWest && hasEast) tiles[y][x] = 'tile_road_256_09.png'
+        else if (hasNorth && hasSouth && hasWest) tiles[y][x] = 'tile_road_256_02.png'
+        else if (hasNorth && hasSouth && hasEast) tiles[y][x] = 'tile_road_256_03.png'
+        else if (hasNorth && hasWest && hasEast) tiles[y][x] = 'tile_road_256_04.png'
+        else if (hasSouth && hasWest && hasEast) tiles[y][x] = 'tile_road_256_01.png'
+        else if (hasNorth && hasSouth) tiles[y][x] = chance(0.5) ? 'tile_road_256_05.png' : 'tile_road_256_06.png'
+        else if (hasWest && hasEast) tiles[y][x] = chance(0.5) ? 'tile_road_256_07.png' : 'tile_road_256_08.png'
+        else if (hasNorth && hasWest) tiles[y][x] = 'tile_road_256_13.png'
+        else if (hasNorth && hasEast) tiles[y][x] = 'tile_road_256_12.png'
+        else if (hasSouth && hasWest) tiles[y][x] = 'tile_road_256_11.png'
+        else if (hasSouth && hasEast) tiles[y][x] = 'tile_road_256_10.png'
+        else if (hasNorth) tiles[y][x] = 'tile_road_256_15.png'
+        else if (hasSouth) tiles[y][x] = 'tile_road_256_17.png'
+        else if (hasWest) tiles[y][x] = 'tile_road_256_14.png'
+        else if (hasEast) tiles[y][x] = 'tile_road_256_16.png'
       }
     })
   })
@@ -217,6 +217,7 @@ function generateMap(entries = {}) {
   return {
     entries,
     tiles,
+    biome: 'grass_01',
   }
 }
 
