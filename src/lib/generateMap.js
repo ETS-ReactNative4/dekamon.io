@@ -1,4 +1,4 @@
-import { chance, randomRange } from './math'
+import { chance, randomRange, randomArray } from './math'
 import gameConfiguration from './gameConfiguration'
 
 const width = gameConfiguration.worldWidth
@@ -6,17 +6,17 @@ const height = gameConfiguration.worldHeight
 
 function computeDistance(p1, p2) {
   return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y)
-  // return Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
 }
 
 function generateMap(entries = {}) {
+  const biome = randomArray(gameConfiguration.availableBiomes)
   const tiles = []
 
   for (let j = 0; j < height; j++) {
     const row = []
 
     for (let i = 0; i < width; i++) {
-      row.push('')
+      row.push(null)
     }
 
     tiles.push(row)
@@ -183,7 +183,10 @@ function generateMap(entries = {}) {
 
   groups.forEach(group => {
     group.forEach(p => {
-      tiles[p.y][p.x] = 'UNASSIGNED'
+      tiles[p.y][p.x] = {
+        road: true,
+        blocked: false,
+      }
     })
   })
 
@@ -195,21 +198,47 @@ function generateMap(entries = {}) {
         const hasWest = tiles[y][x - 1]
         const hasEast = tiles[y][x + 1]
 
-        if (hasNorth && hasSouth && hasWest && hasEast) tiles[y][x] = 'tile_road_256_09.png'
-        else if (hasNorth && hasSouth && hasWest) tiles[y][x] = 'tile_road_256_02.png'
-        else if (hasNorth && hasSouth && hasEast) tiles[y][x] = 'tile_road_256_03.png'
-        else if (hasNorth && hasWest && hasEast) tiles[y][x] = 'tile_road_256_04.png'
-        else if (hasSouth && hasWest && hasEast) tiles[y][x] = 'tile_road_256_01.png'
-        else if (hasNorth && hasSouth) tiles[y][x] = chance(0.5) ? 'tile_road_256_05.png' : 'tile_road_256_06.png'
-        else if (hasWest && hasEast) tiles[y][x] = chance(0.5) ? 'tile_road_256_07.png' : 'tile_road_256_08.png'
-        else if (hasNorth && hasWest) tiles[y][x] = 'tile_road_256_13.png'
-        else if (hasNorth && hasEast) tiles[y][x] = 'tile_road_256_12.png'
-        else if (hasSouth && hasWest) tiles[y][x] = 'tile_road_256_11.png'
-        else if (hasSouth && hasEast) tiles[y][x] = 'tile_road_256_10.png'
-        else if (hasNorth) tiles[y][x] = 'tile_road_256_15.png'
-        else if (hasSouth) tiles[y][x] = 'tile_road_256_17.png'
-        else if (hasWest) tiles[y][x] = 'tile_road_256_14.png'
-        else if (hasEast) tiles[y][x] = 'tile_road_256_16.png'
+        if (hasNorth && hasSouth && hasWest && hasEast) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_09.png`
+        else if (hasNorth && hasSouth && hasWest) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_02.png`
+        else if (hasNorth && hasSouth && hasEast) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_03.png`
+        else if (hasNorth && hasWest && hasEast) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_04.png`
+        else if (hasSouth && hasWest && hasEast) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_01.png`
+        else if ((hasNorth && hasSouth) || (hasSouth && typeof tiles[y - 1] === 'undefined') || (hasNorth && typeof tiles[y + 1] === 'undefined')) tiles[y][x].backgroundImageSource = chance(0.5) ? `/images/Sprites/${biome}/${biome}_tile_road_256_05.png` : `/images/Sprites/${biome}/${biome}_tile_road_256_06.png`
+        else if ((hasWest && hasEast) || (hasEast && typeof tiles[y][x - 1] === 'undefined') || (hasWest && typeof tiles[y][x + 1] === 'undefined')) tiles[y][x].backgroundImageSource = chance(0.5) ? `/images/Sprites/${biome}/${biome}_tile_road_256_07.png` : `/images/Sprites/${biome}/${biome}_tile_road_256_08.png`
+        else if (hasNorth && hasWest) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_13.png`
+        else if (hasNorth && hasEast) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_12.png`
+        else if (hasSouth && hasWest) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_11.png`
+        else if (hasSouth && hasEast) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_10.png`
+        else if (hasNorth) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_15.png`
+        else if (hasSouth) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_17.png`
+        else if (hasWest) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_14.png`
+        else if (hasEast) tiles[y][x].backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_road_256_16.png`
+      }
+    })
+  })
+
+  tiles.forEach((row, y) => {
+    row.forEach((tile, x) => {
+      if (!tile) {
+        const e = Math.random()
+        const tile = { blocked: false }
+
+        if (e < 0.6) {
+          tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_11.png`
+          // TODO add object
+        }
+        else if (e < 0.7) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_10.png`
+        else if (e < 0.8) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_09.png`
+        else if (e < 0.84) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_08.png`
+        else if (e < 0.88) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_07.png`
+        else if (e < 0.90) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_06.png`
+        else if (e < 0.92) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_05.png`
+        else if (e < 0.94) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_04.png`
+        else if (e < 0.96) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_03.png`
+        else if (e < 0.98) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_02.png`
+        else tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_01.png`
+
+        tiles[y][x] = tile
       }
     })
   })
@@ -217,7 +246,7 @@ function generateMap(entries = {}) {
   return {
     entries,
     tiles,
-    biome: 'grass_01',
+    biome,
   }
 }
 

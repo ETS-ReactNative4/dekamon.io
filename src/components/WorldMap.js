@@ -26,13 +26,13 @@ class WorldMap extends React.Component {
       <div style={divStyle} title={`[${x},${y}]`}>
         {map.tiles.map((row, i) => (
           <div key={i} className="x4">
-            {row.map((item, j) => (
+            {row.map((tile, j) => (
               <div
                 key={j}
                 style={{
                   width: 2,
                   height: 2,
-                  backgroundColor: item ? 'grey' : 'white',
+                  backgroundColor: tile.road ? 'grey' : 'white',
                 }}
               />
             ))}
