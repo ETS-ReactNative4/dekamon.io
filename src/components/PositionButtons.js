@@ -47,7 +47,7 @@ class PositionButtons extends React.Component {
     const { currentMap } = this.props
 
     return (
-      <div className="y8">
+      <div className="y8 no-select">
         <button
           type="button"
           onClick={() => this.handleWalkClick('north')}

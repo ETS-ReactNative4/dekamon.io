@@ -11,3 +11,7 @@ pre {
 .flex-grow {
   flex-grow: 1;
 }
+
+.no-select {
+  user-select: none;
+}

@@ -9,6 +9,8 @@ class World extends React.Component {
 
   componentDidMount() {
     this.draw()
+
+    window.addEventListener('resize', this.draw)
   }
 
   componentDidUpdate() {
