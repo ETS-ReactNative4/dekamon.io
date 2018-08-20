@@ -1,5 +1,5 @@
 export default {
-  worldWidth: 20,
+  worldWidth: 18,
   worldHeight: 10,
   availableBiomes: [
     'grass_01',
@@ -11,5 +11,5 @@ export default {
     // 'sand_02',
     // 'snow_01',
     // 'snow_02',
-  ]
+  ],
 }

@@ -5,6 +5,7 @@ import draw from '../lib/world/draw'
 class World extends React.Component {
 
   containerRef = React.createRef()
+
   canvasRef = React.createRef()
 
   componentDidMount() {
@@ -18,7 +19,9 @@ class World extends React.Component {
   }
 
   draw() {
-    draw(this.canvasRef.current, this.containerRef.current.clientWidth, this.props.currentMap)
+    const { currentMap, heroPosition, dispatch } = this.props
+
+    draw(this.canvasRef.current, this.containerRef.current.clientWidth, currentMap, heroPosition, dispatch)
   }
 
   render() {
@@ -33,6 +36,7 @@ class World extends React.Component {
 
 const mapStateToProps = s => ({
   currentMap: s.currentMap,
+  heroPosition: s.heroPosition,
 })
 
 export default connect(mapStateToProps)(World)

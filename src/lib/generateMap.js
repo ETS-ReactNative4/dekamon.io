@@ -70,13 +70,9 @@ function generateMap(entries = {}) {
     groups.push(eastGroup)
   }
 
-  const nIsolatedPoints = randomRange(0, 2)
+  const nIsolatedPoints = randomRange(1, 4)
 
   for (let i = 0; i < nIsolatedPoints; i++) {
-    groups.push([{ x: randomRange(3, width - 4), y: randomRange(3, height - 4) }])
-  }
-
-  if (groups.length === 1) {
     groups.push([{ x: randomRange(3, width - 4), y: randomRange(3, height - 4) }])
   }
 

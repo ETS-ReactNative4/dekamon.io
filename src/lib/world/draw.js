@@ -1,7 +1,7 @@
 import gameConfiguration from '../gameConfiguration'
 import loadImages from './loadImages'
 
-function draw(canvasElement, width, mapDefinition) {
+function draw(canvasElement, width, mapDefinition, hero, dispatch) {
   const tileSize = width / gameConfiguration.worldWidth
   const height = tileSize * gameConfiguration.worldHeight
 
@@ -24,6 +24,7 @@ function draw(canvasElement, width, mapDefinition) {
 
   loadImages(imageSourcesToLoad)
   .then(images => {
+    // draw background
     mapDefinition.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
         if (tile) {
@@ -31,33 +32,31 @@ function draw(canvasElement, width, mapDefinition) {
         }
       })
     })
+
+    // draw hero
+    const { x, y } = hero.position
+
+    _.fillStyle = 'red'
+    _.beginPath()
+    _.arc((x + 0.5) * tileSize, (y + 0.5) * tileSize, tileSize * 0.3, 0, 2 * Math.PI)
+    _.closePath()
+    _.fill()
   })
   .catch(console.error)
 
-  // const roadImagesPromises = []
-  // const roadImages = {}
-  //
-  // roadImagesPartialSources.forEach(partialSource => {
-  //   const image = new Image
-  //
-  //   image.src = `/images/Sprites/${mapDefinition.biome}/${mapDefinition.biome}_${partialSource}`
-  //
-  //   roadImages[partialSource] = image
-  //
-  //   roadImagesPromises.push(new Promise(resolve => image.onload = resolve))
-  // })
-  //
-  // console.log(roadImagesPromises  );
-  // // image.onload = () => {
-  // //   _.drawImage(image, 0, 0, tileSize, tileSize)
-  // // }
-  //
-  // Promise.all(roadImagesPromises)
-  // .then(() => {
-  //   console.log('done loading');
-  //
-  // })
-  // .catch(console.error)
+  canvasElement.addEventListener('click', e => {
+    const rect = canvasElement.getBoundingClientRect()
+
+    dispatch({
+      type: 'SET_HERO_FINAL_POSITION',
+      payload: {
+        finalPosition: {
+          x: Math.floor((e.clientX - rect.left) / tileSize),
+          y: Math.floor((e.clientY - rect.top) / tileSize),
+        },
+      },
+    })
+  })
 
 }
 

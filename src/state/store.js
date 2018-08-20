@@ -1,11 +1,11 @@
 import { combineReducers, applyMiddleware, createStore } from 'redux'
 import currentMap from './reducers/currentMap'
-import hero from './reducers/hero'
+import heroPosition from './reducers/heroPosition'
 import maps from './reducers/maps'
 
 const reducer = combineReducers({
   currentMap,
-  hero,
+  heroPosition,
   maps,
 })
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import './App.css'
 
 import World from './components/World'
@@ -12,8 +11,6 @@ import 'flexpad/dist/flexpad.min.css'
 class App extends Component {
 
   render() {
-    // const { hero } = this.props
-
     return (
       <div className="App x4">
         <div>
@@ -26,8 +23,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = s => ({
-  hero: s.hero,
-})
-
-export default connect(mapStateToProps)(App)
+export default App
