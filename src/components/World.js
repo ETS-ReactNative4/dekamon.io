@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import draw from '../lib/world/draw'
+import registerCanvas from '../lib/world/registerCanvas'
 
 class World extends React.Component {
 
@@ -9,19 +9,19 @@ class World extends React.Component {
   canvasRef = React.createRef()
 
   componentDidMount() {
-    this.draw()
+    this.registerCanvas()
 
-    window.addEventListener('resize', this.draw)
+    window.addEventListener('resize', this.registerCanvas)
   }
 
   componentDidUpdate() {
-    this.draw()
+    this.registerCanvas()
   }
 
-  draw() {
+  registerCanvas() {
     const { currentMap, heroPosition, dispatch } = this.props
 
-    draw(this.canvasRef.current, this.containerRef.current.clientWidth, currentMap, heroPosition, dispatch)
+    registerCanvas(this.canvasRef.current, this.containerRef.current.clientWidth, currentMap, heroPosition, dispatch)
   }
 
   render() {

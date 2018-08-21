@@ -1,15 +1,6 @@
-import gameConfiguration from '../gameConfiguration'
 import loadImages from './loadImages'
 
-function draw(canvasElement, width, mapDefinition, hero, dispatch) {
-  const tileSize = width / gameConfiguration.worldWidth
-  const height = tileSize * gameConfiguration.worldHeight
-
-  canvasElement.width = width
-  canvasElement.height = height
-
-  const _ = canvasElement.getContext('2d')
-
+function draw(_, width, height, tileSize, mapDefinition, heroPosition) {
   _.clearRect(0, 0, width, height)
 
   const imageSourcesToLoad = []
@@ -34,30 +25,34 @@ function draw(canvasElement, width, mapDefinition, hero, dispatch) {
     })
 
     // draw hero
-    const { x, y } = hero.position
+    const { position, finalPosition, path } = heroPosition
 
     _.fillStyle = 'red'
     _.beginPath()
-    _.arc((x + 0.5) * tileSize, (y + 0.5) * tileSize, tileSize * 0.3, 0, 2 * Math.PI)
+    _.arc((position.x + 0.5) * tileSize, (position.y + 0.5) * tileSize, tileSize * 0.3, 0, 2 * Math.PI)
     _.closePath()
     _.fill()
+
+    if (path) {
+      path.forEach((position, i) => {
+        if (i) {
+          _.fillStyle = 'green'
+          _.beginPath()
+          _.arc((position.x + 0.5) * tileSize, (position.y + 0.5) * tileSize, tileSize * 0.3, 0, 2 * Math.PI)
+          _.closePath()
+          _.fill()
+        }
+      })
+    }
+
+    if (finalPosition) {
+      _.strokeStyle = 'green'
+      _.lineWidth = 5
+      _.strokeRect(finalPosition.x * tileSize, finalPosition.y * tileSize, tileSize, tileSize)
+    }
+
   })
   .catch(console.error)
-
-  canvasElement.addEventListener('click', e => {
-    const rect = canvasElement.getBoundingClientRect()
-
-    dispatch({
-      type: 'SET_HERO_FINAL_POSITION',
-      payload: {
-        finalPosition: {
-          x: Math.floor((e.clientX - rect.left) / tileSize),
-          y: Math.floor((e.clientY - rect.top) / tileSize),
-        },
-      },
-    })
-  })
-
 }
 
 export default draw
