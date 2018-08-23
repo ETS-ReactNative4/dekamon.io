@@ -8,8 +8,12 @@ function computeDistance(p1, p2) {
   return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y)
 }
 
-function generateMap(entries = {}) {
+function generateWorldMap(entries = {}) {
+  // Pick biome at random
+  // TODO: pick biomes from surronding maps
   const biome = randomArray(gameConfiguration.availableBiomes)
+
+  // Create empty tiles
   const tiles = []
 
   for (let j = 0; j < height; j++) {
@@ -22,13 +26,20 @@ function generateMap(entries = {}) {
     tiles.push(row)
   }
 
+  // Create new entries
   if (typeof entries.north === 'undefined' && chance(0.6)) entries.north = randomRange(2, width - 3)
   if (typeof entries.south === 'undefined' && chance(0.6)) entries.south = randomRange(2, width - 3)
   if (typeof entries.west === 'undefined' && chance(0.6)) entries.west = randomRange(2, height - 3)
   if (typeof entries.east === 'undefined' && chance(0.6)) entries.east = randomRange(2, height - 3)
 
+  // Create backup entry for the first ever map, in case no entry was created
+  if (typeof entries.north === 'undefined' && typeof entries.south === 'undefined' && typeof entries.west === 'undefined' && typeof entries.east === 'undefined') {
+    entries.north = randomRange(2, width - 3)
+  }
+
   let groups = []
 
+  // For each entry, create a group of outgoing tiles
   if (entries.north) {
     const northGroup = []
     const offset = randomRange(2, 7)
@@ -70,6 +81,7 @@ function generateMap(entries = {}) {
     groups.push(eastGroup)
   }
 
+  // Create some isolated points groups to randomize the map
   const nIsolatedPoints = randomRange(1, 4)
 
   for (let i = 0; i < nIsolatedPoints; i++) {
@@ -177,6 +189,8 @@ function generateMap(entries = {}) {
     groups = nextGroups
   }
 
+  // There should be only one group left now
+  // Create road tiles
   groups.forEach(group => {
     group.forEach(p => {
       tiles[p.y][p.x] = {
@@ -186,6 +200,7 @@ function generateMap(entries = {}) {
     })
   })
 
+  // For each road tile, assign the correct background image
   tiles.forEach((row, y) => {
     row.forEach((tile, x) => {
       if (tile) {
@@ -213,6 +228,7 @@ function generateMap(entries = {}) {
     })
   })
 
+  // For each non-road tile, assign the correct background image
   tiles.forEach((row, y) => {
     row.forEach((tile, x) => {
       if (!tile) {
@@ -246,4 +262,4 @@ function generateMap(entries = {}) {
   }
 }
 
-export default generateMap
+export default generateWorldMap

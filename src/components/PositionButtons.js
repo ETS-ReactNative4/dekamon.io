@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import generateMap from '../lib/generateMap'
+import generateWorldMap from '../lib/generateWorldMap'
 
 class PositionButtons extends React.Component {
 
@@ -37,7 +37,7 @@ class PositionButtons extends React.Component {
         type: 'CREATE_MAP',
         payload: {
           position: [x, y],
-          ...generateMap(entries),
+          ...generateWorldMap(entries),
         },
       })
     }

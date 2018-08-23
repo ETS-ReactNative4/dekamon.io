@@ -2,42 +2,14 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import store from './state/store'
+import createNewGame from './lib/createNewGame'
+import registerServiceWorker from './registerServiceWorker'
+import App from './components/App'
 import './index.css'
 import './normalize.css'
-import App from './App'
-import registerServiceWorker from './registerServiceWorker'
-import generateMap from './lib/generateMap'
-import gameConfiguration from './lib/gameConfiguration'
-import { randomArray } from './lib/math'
+import 'flexpad/dist/flexpad.min.css'
 
-const firstMap = generateMap()
-
-store.dispatch({
-  type: 'CREATE_MAP',
-  payload: {
-    position: [0, 0],
-    ...firstMap,
-  },
-})
-
-const firstMapRoadPositions = []
-
-firstMap.tiles.forEach((row, y) => {
-  if (y !== 0 && y !== gameConfiguration.worldHeight - 1) {
-    row.forEach((tile, x) => {
-      if (tile.road && x !== 0 && x !== gameConfiguration.worldWidth - 1) {
-        firstMapRoadPositions.push({ x, y })
-      }
-    })
-  }
-})
-
-store.dispatch({
-  type: 'SET_HERO_POSITION',
-  payload: {
-    position: randomArray(firstMapRoadPositions),
-  },
-})
+createNewGame()
 
 ReactDOM.render(
   <Provider store={store}>

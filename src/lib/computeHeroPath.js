@@ -1,5 +1,8 @@
+import gameConfiguration from './gameConfiguration'
+
 const memory = {}
 
+// Hash a position inot a unique string
 const hash = position => {
   const h = `${position.x}_${position.y}`
 
@@ -8,12 +11,17 @@ const hash = position => {
   return h
 }
 
+// Retrieve a position from a hash string
 const unhash = hash => memory[hash]
 
-const getTileWeight = tile => tile.blocked ? Infinity : tile.road ? 1 : 10
+// Mouvement cost (g function)
+const nonRoadWeight = gameConfiguration.worldWidth + gameConfiguration.worldHeight
+const getTileWeight = tile => tile.blocked ? Infinity : tile.road ? 1 : nonRoadWeight
 
+// Mahattan heuristic (h function)
 const manhattanHeuristic = (p1, p2) => Math.abs(p2.x - p1.x) + Math.abs(p2.y - p1.y)
 
+// A* Search
 // http://theory.stanford.edu/~amitp/GameProgramming/ImplementationNotes.html
 function computeHeroPath(startPosition, goalPosition, mapDefinition) {
 
@@ -101,6 +109,7 @@ function computeHeroPath(startPosition, goalPosition, mapDefinition) {
     })
   }
 
+  // Reconstruct path from goal to start
   const path = []
 
   path.push(goalPosition)
