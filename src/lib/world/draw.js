@@ -1,7 +1,8 @@
 import loadImages from './loadImages'
+import gameConfiguration from '../gameConfiguration'
 
-function draw(_, width, height, tileSize, mapDefinition, heroPosition) {
-  _.clearRect(0, 0, width, height)
+function draw(_, tileSize, mapDefinition, heroPosition) {
+  _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
 
   const imageSourcesToLoad = []
 

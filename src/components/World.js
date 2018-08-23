@@ -9,19 +9,23 @@ class World extends React.Component {
   canvasRef = React.createRef()
 
   componentDidMount() {
-    this.registerCanvas()
+    const { dispatch } = this.props
 
-    window.addEventListener('resize', this.registerCanvas)
+    this.updateCanvasParameters = registerCanvas(this.canvasRef.current, dispatch)
+
+    window.addEventListener('resize', this.updateCanvas)
+
+    this.updateCanvas()
   }
 
   componentDidUpdate() {
-    this.registerCanvas()
+    this.updateCanvas()
   }
 
-  registerCanvas() {
+  updateCanvas = () => {
     const { currentMap, heroPosition, dispatch } = this.props
 
-    registerCanvas(this.canvasRef.current, this.containerRef.current.clientWidth, currentMap, heroPosition, dispatch)
+    this.updateCanvasParameters(this.containerRef.current.clientWidth, currentMap, heroPosition)
   }
 
   render() {

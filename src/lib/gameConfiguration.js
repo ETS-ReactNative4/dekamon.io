@@ -1,5 +1,5 @@
 export default {
-  worldWidth: 18,
+  worldWidth: 22,
   worldHeight: 10,
   availableBiomes: [
     'grass_01',

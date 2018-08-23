@@ -11,11 +11,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App x4">
-        <div>
-          <WorldMap />
-          <PositionButtons />
-        </div>
+      <div className="App">
         <World />
       </div>
     )
