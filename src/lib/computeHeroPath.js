@@ -1,4 +1,5 @@
 import gameConfiguration from './gameConfiguration'
+import { randomArray } from './math'
 
 const memory = {}
 
@@ -41,22 +42,26 @@ function computeHeroPath(startPosition, goalPosition, mapDefinition) {
 
     // current = remove lowest rank item from OPEN
     let minRank = Infinity
-    let currentPositionHash = null
     let currentPositionIndexInOpen = null
+    let minRankHashes = []
 
     open.forEach((hash, index) => {
       const rank = hashToRank[hash]
 
-      if (rank < minRank) {
+      if (rank === minRank) {
+        minRankHashes.push(hash)
+      }
+      else if (rank < minRank) {
         minRank = rank
-        currentPositionHash = hash
-        currentPositionIndexInOpen = index
+        minRankHashes = [hash]
       }
     })
 
+    // We use a set of possible min positions to randomize the resulting path
+    const currentPositionHash = randomArray(minRankHashes)
     const currentPosition = unhash(currentPositionHash)
 
-    open.splice(currentPositionIndexInOpen, 1)
+    open.splice(open.indexOf(currentPositionHash), 1)
 
     // while lowest rank in OPEN is not the GOAL
     if (currentPositionHash === goalPositionHash) {
