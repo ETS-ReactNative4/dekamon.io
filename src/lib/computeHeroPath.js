@@ -41,10 +41,9 @@ function computeHeroPath(startPosition, goalPosition, mapDefinition) {
   while (true) {
     // current = remove lowest rank item from OPEN
     let minRank = Infinity
-    let currentPositionIndexInOpen = null
     let minRankHashes = []
 
-    open.forEach((hash, index) => {
+    open.forEach(hash => {
       const rank = hashToRank[hash]
 
       if (rank === minRank) {

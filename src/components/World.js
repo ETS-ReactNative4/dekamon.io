@@ -23,7 +23,7 @@ class World extends React.Component {
   }
 
   updateCanvas = () => {
-    const { currentMap, heroPosition, dispatch } = this.props
+    const { currentMap, heroPosition } = this.props
 
     this.updateCanvasParameters(this.containerRef.current.clientWidth, currentMap, heroPosition)
   }
