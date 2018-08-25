@@ -5,6 +5,7 @@ let heroX = 0
 let heroY = 0
 let heroTimeout
 let lastFinalPosition
+let lastPosition
 
 function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
   _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
@@ -42,19 +43,21 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
     }
 
     if (heroIsAtFinalPosition) {
+      console.log('heroIsAtFinalPosition:', heroIsAtFinalPosition)
       heroX = (position.x + 0.5) * tileSize
       heroY = (position.y + 0.5) * tileSize
+      console.log('heroX:', heroX)
     }
     else {
       const nextPosition = path[0]
       const diffX = (nextPosition.x + 0.5) * tileSize - heroX
       const diffY = (nextPosition.y + 0.5) * tileSize - heroY
       // if hero is close to nextPosition
-      if (Math.abs(diffX) < 1 && Math.abs(diffY) < 1) {
-
-        dispatch({ type: 'POP_HERO_POSITION' })
+      if (Math.abs(diffX) < 5 && Math.abs(diffY) < 5) {
         heroX = (nextPosition.x + 0.5) * tileSize
         heroY = (nextPosition.y + 0.5) * tileSize
+
+        dispatch({ type: 'POP_HERO_POSITION' })
       }
       else {
         const increment = tileSize / 20

@@ -10,8 +10,8 @@ function createNewGame() {
   store.dispatch({
     type: 'CREATE_MAP',
     payload: {
-      position: [0, 0],
       ...firstWorldMap,
+      position: { x: 0, y: 0 },
     },
   })
 
