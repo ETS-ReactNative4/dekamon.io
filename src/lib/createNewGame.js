@@ -1,7 +1,7 @@
 import store from '../state/store'
 import generateWorldMap from './generateWorldMap'
 import gameConfiguration from './gameConfiguration'
-import { randomArray } from './math'
+import { randomArray } from './utils'
 
 function createNewGame() {
   // Generate and dispatch first map
@@ -28,10 +28,13 @@ function createNewGame() {
     }
   })
 
+  const position = randomArray(firstWorldMapRoadPositions)
+
   store.dispatch({
     type: 'SET_HERO_POSITION',
     payload: {
-      position: randomArray(firstWorldMapRoadPositions),
+      position,
+      finalPosition: position,
     },
   })
 }

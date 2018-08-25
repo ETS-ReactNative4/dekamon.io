@@ -1,4 +1,4 @@
-import { chance, randomRange, randomArray } from './math'
+import { chance, randomRange, randomArray } from './utils'
 import gameConfiguration from './gameConfiguration'
 
 const width = gameConfiguration.worldWidth

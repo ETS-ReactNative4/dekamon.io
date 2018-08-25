@@ -33,7 +33,7 @@ function registerCanvas(canvasElement, dispatch) {
     canvasElement.width = width
     canvasElement.height = tileSize * gameConfiguration.worldHeight
 
-    draw(_, tileSize, mapDefinition, heroPosition)
+    draw(_, dispatch, tileSize, mapDefinition, heroPosition)
   }
 }
 

@@ -1,7 +1,12 @@
 import loadImages from './loadImages'
 import gameConfiguration from '../gameConfiguration'
 
-function draw(_, tileSize, mapDefinition, heroPosition) {
+let heroX = 0
+let heroY = 0
+let heroTimeout
+let lastFinalPosition
+
+function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
   _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
 
   const imageSourcesToLoad = []
@@ -16,7 +21,8 @@ function draw(_, tileSize, mapDefinition, heroPosition) {
 
   loadImages(imageSourcesToLoad)
   .then(images => {
-    // draw background
+
+    // Draw background
     mapDefinition.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
         if (tile) {
@@ -25,33 +31,46 @@ function draw(_, tileSize, mapDefinition, heroPosition) {
       })
     })
 
-    // draw hero
+    // Draw hero
     const { position, finalPosition, path } = heroPosition
+
+    const heroIsAtFinalPosition = position.x === finalPosition.x && position.y === finalPosition.y
+
+    if (lastFinalPosition !== finalPosition) {
+      lastFinalPosition = finalPosition
+      clearTimeout(heroTimeout)
+    }
+
+    if (heroIsAtFinalPosition) {
+      heroX = (position.x + 0.5) * tileSize
+      heroY = (position.y + 0.5) * tileSize
+    }
+    else {
+      const nextPosition = path[0]
+      const diffX = (nextPosition.x + 0.5) * tileSize - heroX
+      const diffY = (nextPosition.y + 0.5) * tileSize - heroY
+      // if hero is close to nextPosition
+      if (Math.abs(diffX) < 1 && Math.abs(diffY) < 1) {
+
+        dispatch({ type: 'POP_HERO_POSITION' })
+        heroX = (nextPosition.x + 0.5) * tileSize
+        heroY = (nextPosition.y + 0.5) * tileSize
+      }
+      else {
+        const increment = tileSize / 20
+
+        heroX += diffX === 0 ? 0 : diffX > 0 ? increment : -increment
+        heroY += diffY === 0 ? 0 : diffY > 0 ? increment : -increment
+
+        heroTimeout = setTimeout(() => draw(_, dispatch, tileSize, mapDefinition, heroPosition), 10)
+      }
+    }
 
     _.fillStyle = 'red'
     _.beginPath()
-    _.arc((position.x + 0.5) * tileSize, (position.y + 0.5) * tileSize, tileSize * 0.3, 0, 2 * Math.PI)
+    _.arc(heroX, heroY, tileSize * 0.3, 0, 2 * Math.PI)
     _.closePath()
     _.fill()
-
-    if (path) {
-      path.forEach((position, i) => {
-        if (i) {
-          _.fillStyle = 'green'
-          _.beginPath()
-          _.arc((position.x + 0.5) * tileSize, (position.y + 0.5) * tileSize, tileSize * 0.3, 0, 2 * Math.PI)
-          _.closePath()
-          _.fill()
-        }
-      })
-    }
-
-    if (finalPosition) {
-      _.strokeStyle = 'green'
-      _.lineWidth = 5
-      _.strokeRect(finalPosition.x * tileSize, finalPosition.y * tileSize, tileSize, tileSize)
-    }
-
   })
   .catch(console.error)
 }

@@ -8,6 +8,17 @@ function hero(state = {}, action) {
       ...action.payload,
     }
 
+  case 'POP_HERO_POSITION': {
+    const path = state.path.slice()
+    const position = path.shift()
+
+    return {
+      ...state,
+      path,
+      position,
+    }
+  }
+
   default:
     return state
   }

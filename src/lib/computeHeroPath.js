@@ -1,5 +1,5 @@
 import gameConfiguration from './gameConfiguration'
-import { randomArray } from './math'
+import { randomArray } from './utils'
 
 const memory = {}
 
@@ -126,6 +126,9 @@ function computeHeroPath(startPosition, goalPosition, mapDefinition) {
 
     currentPositionHash = hash(parent)
   }
+
+  // Remove first postion on path which is the start position
+  path.shift()
 
   return path
 }
