@@ -57,6 +57,8 @@ function* updateWorldMap() {
       if (westMap) entries.west = westMap.entries.east || null
       if (eastMap) entries.east = eastMap.entries.west || null
 
+      // yield delay(5)
+
       yield put({
         type: 'CREATE_MAP',
         payload: {
@@ -65,6 +67,9 @@ function* updateWorldMap() {
         },
       })
     }
+
+    // resolves race conditions
+    yield new Promise(resolve => setTimeout(resolve, 10))
 
     yield put({
       type: 'SET_HERO_POSITION',
