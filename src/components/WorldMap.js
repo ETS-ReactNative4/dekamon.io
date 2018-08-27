@@ -2,18 +2,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import gameConfiguration from '../lib/gameConfiguration'
 
+const cellSize = 5
+
 class WorldMap extends React.Component {
 
   renderMapSection(x, y) {
     const { maps } = this.props
 
-    const map = maps.find(map => map.position[0] === x && map.position[1] === y)
+    const map = maps.find(map => map.position.x === x && map.position.y === y)
 
     const divStyle = {
       borderBottom: '1px solid lightgrey',
       borderRight: '1px solid lightgrey',
-      width: gameConfiguration.worldWidth * 2,
-      height: gameConfiguration.worldHeight * 2,
+      width: gameConfiguration.worldWidth * cellSize,
+      height: gameConfiguration.worldHeight * cellSize,
     }
 
     if (!map) {
@@ -30,8 +32,8 @@ class WorldMap extends React.Component {
               <div
                 key={j}
                 style={{
-                  width: 2,
-                  height: 2,
+                  width: cellSize,
+                  height: cellSize,
                   backgroundColor: tile.road ? 'grey' : 'white',
                 }}
               />
@@ -43,7 +45,7 @@ class WorldMap extends React.Component {
   }
 
   render() {
-    const { currentMap } = this.props
+    const { currentMap, close } = this.props
     const divs = []
 
     for (let j = 0; j < 5; j++) {
@@ -52,7 +54,7 @@ class WorldMap extends React.Component {
       for (let i = 0; i < 5; i++) {
         row.push(
           <div key={i}>
-            {this.renderMapSection(i - 2 + currentMap.position[0], j - 2 + currentMap.position[1])}
+            {this.renderMapSection(i - 2 + currentMap.position.x, j - 2 + currentMap.position.y)}
           </div>
         )
       }
@@ -67,12 +69,30 @@ class WorldMap extends React.Component {
     return (
       <div
         style={{
-          margin: 16,
-          borderTop: '1px solid lightgrey',
-          borderLeft: '1px solid lightgrey',
+          position: 'relative',
+          padding: 32,
+          backgroundColor: 'white',
         }}
       >
-        {divs}
+        <div
+          onClick={close}
+          style={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            cursor: 'pointer',
+          }}
+        >
+          ×
+        </div>
+        <div
+          style={{
+            borderTop: '1px solid lightgrey',
+            borderLeft: '1px solid lightgrey',
+          }}
+        >
+          {divs}
+        </div>
       </div>
     )
   }

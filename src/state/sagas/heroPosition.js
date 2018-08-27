@@ -41,6 +41,14 @@ function* updateWorldMap() {
   if (nextHeroPosition) {
     const nextMap = maps.find(map => map.position.x === x && map.position.y === y)
 
+    yield put({
+      type: 'SET_HERO_POSITION',
+      payload: {
+        position: nextHeroPosition,
+        finalPosition: nextHeroPosition,
+      },
+    })
+
     if (nextMap) {
       yield put({ type: 'SET_CURRENT_MAP', payload: nextMap })
     }
@@ -68,16 +76,7 @@ function* updateWorldMap() {
       })
     }
 
-    // resolves race conditions
-    yield new Promise(resolve => setTimeout(resolve, 10))
 
-    yield put({
-      type: 'SET_HERO_POSITION',
-      payload: {
-        position: nextHeroPosition,
-        finalPosition: nextHeroPosition,
-      },
-    })
   }
 }
 

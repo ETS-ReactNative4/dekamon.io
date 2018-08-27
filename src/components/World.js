@@ -31,7 +31,7 @@ class World extends React.Component {
   render() {
 
     return (
-      <div ref={this.containerRef} className="flex-grow">
+      <div ref={this.containerRef}>
         <canvas ref={this.canvasRef} />
       </div>
     )

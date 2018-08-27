@@ -37,11 +37,9 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
 
     const heroIsAtFinalPosition = position.x === finalPosition.x && position.y === finalPosition.y
 
-    console.log('position:', position)
-
     if (lastPosition !== position) {
-      clearTimeout(heroTimeout)
       lastPosition = position
+      clearTimeout(heroTimeout)
     }
 
     if (lastFinalPosition !== finalPosition) {
