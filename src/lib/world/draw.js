@@ -14,9 +14,9 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
 
   mapDefinition.tiles.forEach(row => {
     row.forEach(tile => {
-      if (tile) {
-        imageSourcesToLoad.push(tile.backgroundImageSource)
-      }
+      imageSourcesToLoad.push(tile.backgroundImageSource)
+
+      if (tile.item) imageSourcesToLoad.push(...tile.item.imageSources)
     })
   })
 
@@ -26,9 +26,13 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
     // Draw background
     mapDefinition.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
-        if (tile) {
-          _.drawImage(images[tile.backgroundImageSource], i * tileSize, j * tileSize, tileSize, tileSize)
-        }
+        _.drawImage(images[tile.backgroundImageSource], i * tileSize, j * tileSize, tileSize, tileSize)
+      })
+    })
+
+    mapDefinition.tiles.forEach((row, j) => {
+      row.forEach((tile, i) => {
+        if (tile.item) tile.item.draw(_, images, tileSize, i, j)
       })
     })
 

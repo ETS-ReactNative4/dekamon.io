@@ -1,4 +1,5 @@
 import { chance, randomRange, randomArray } from './utils'
+import { normalTree } from './world/items'
 import gameConfiguration from './gameConfiguration'
 
 const width = gameConfiguration.worldWidth
@@ -254,6 +255,9 @@ function generateWorldMap(entries = {}) {
       }
     })
   })
+
+  tiles[gameConfiguration.worldHeight - 1][0].item = normalTree()
+  tiles[gameConfiguration.worldHeight - 3][4].item = normalTree()
 
   return {
     entries,
