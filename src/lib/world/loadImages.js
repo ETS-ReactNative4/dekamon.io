@@ -9,10 +9,7 @@ function loadImages(sources) {
     if (sourceToImage[source]) {
       images[source] = sourceToImage[source]
     }
-    else if (promises[source]) {
-      return
-    }
-    else {
+    else if (!promises[source]) {
       promises.push(new Promise((resolve, reject) => {
         const image = new Image()
 
