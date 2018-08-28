@@ -26,11 +26,14 @@ function registerCanvas(canvasElement, dispatch) {
     })
   })
 
-  return (width, _mapDefinition, _heroPosition) => {
-    tileSize = width / gameConfiguration.worldWidth
+  return (width, height, _mapDefinition, _heroPosition) => {
+    const tileSize1 = width / gameConfiguration.worldWidth
+    const tileSize2 = height / gameConfiguration.worldHeight
+
+    tileSize = Math.min(tileSize1, tileSize2)
     mapDefinition = _mapDefinition
     heroPosition = _heroPosition
-    canvasElement.width = width
+    canvasElement.width = tileSize * gameConfiguration.worldWidth
     canvasElement.height = tileSize * gameConfiguration.worldHeight
 
     draw(_, dispatch, tileSize, mapDefinition, heroPosition)

@@ -24,9 +24,11 @@ class App extends Component {
 
           {!!mode && (
             <div className="App-mode x5">
+
               {mode === 'world-map' && (
                 <WorldMap close={this.closeMode} />
               )}
+
             </div>
           )}
         </div>

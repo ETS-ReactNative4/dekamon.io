@@ -6,6 +6,8 @@ import store from '../store'
 function* updateWorldMap() {
   const { heroPosition, currentMap, maps } = store.getState()
 
+  if (heroPosition.position.x !== heroPosition.finalPosition.x || heroPosition.position.y !== heroPosition.finalPosition.y) return
+  
   let { x, y } = currentMap.position
   let nextHeroPosition
 

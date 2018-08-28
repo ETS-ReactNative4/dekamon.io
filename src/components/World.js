@@ -25,13 +25,13 @@ class World extends React.Component {
   updateCanvas = () => {
     const { currentMap, heroPosition } = this.props
 
-    this.updateCanvasParameters(this.containerRef.current.clientWidth, currentMap, heroPosition)
+    this.updateCanvasParameters(this.containerRef.current.clientWidth, this.containerRef.current.clientHeight, currentMap, heroPosition)
   }
 
   render() {
 
     return (
-      <div ref={this.containerRef}>
+      <div ref={this.containerRef} style={{ height: '100%' }} className="x5">
         <canvas ref={this.canvasRef} />
       </div>
     )
