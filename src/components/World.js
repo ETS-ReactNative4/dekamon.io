@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import registerCanvas from '../lib/world/registerCanvas'
+import './World.css'
 
 class World extends React.Component {
 
@@ -31,8 +32,8 @@ class World extends React.Component {
   render() {
 
     return (
-      <div ref={this.containerRef} style={{ height: '100%' }} className="x5">
-        <canvas ref={this.canvasRef} style={{ border: '1px solid LightGrey' }} />
+      <div ref={this.containerRef} className="World x5">
+        <canvas ref={this.canvasRef} className="World-canvas" />
       </div>
     )
   }

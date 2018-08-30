@@ -1,0 +1,7 @@
+.World {
+  height: 100%;
+}
+
+.World-canvas {
+  border: 1px solid LightGrey;
+}
