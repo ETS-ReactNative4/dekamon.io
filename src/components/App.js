@@ -12,6 +12,12 @@ class App extends Component {
 
   closeMode = () => this.setState({ mode: null })
 
+  handleModalClick = e => {
+    if (e.target === this.modalNode) {
+      this.setState({ mode: null })
+    }
+  }
+
   render() {
     const { mode } = this.state
 
@@ -23,7 +29,11 @@ class App extends Component {
           <World />
 
           {!!mode && (
-            <div className="App-mode x5">
+            <div
+              className="App-modal x5"
+              onClick={this.handleModalClick}
+              ref={node => this.modalNode = node}
+            >
 
               {mode === 'world-map' && (
                 <WorldMap close={this.closeMode} />
