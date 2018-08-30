@@ -10,8 +10,8 @@ let lastPosition
 let heroIsLookingLeft = false
 let useHeroImage1 = true
 let useHeroImage1Counter = 0
-const hero1Source = '/images/hero_1.png'
-const hero2Source = '/images/hero_2.png'
+const heroImage1Source = '/images/hero_1.png'
+const heroImage2Source = '/images/hero_2.png'
 const heroImageWidth = 166
 const heroImageHeight = 243
 
@@ -19,8 +19,8 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
   _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
 
   const imageSourcesToLoad = [
-    hero1Source,
-    hero2Source,
+    heroImage1Source,
+    heroImage2Source,
   ]
 
   mapDefinition.tiles.forEach(row => {
@@ -99,7 +99,7 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
     const posY = heroY - tileSize * 0.2
 
     console.log('useHeroImage1:', useHeroImage1)
-    _.drawImage(images[useHeroImage1 ? hero1Source : hero2Source], posX, posY, tileSize * 0.6, tileSize * heroImageHeight / heroImageWidth * 0.6)
+    _.drawImage(images[useHeroImage1 ? heroImage1Source : heroImage2Source], posX, posY, tileSize * 0.6, tileSize * heroImageHeight / heroImageWidth * 0.6)
 
     _.restore()
 
