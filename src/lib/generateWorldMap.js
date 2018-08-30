@@ -239,7 +239,7 @@ function generateWorldMap(entries = {}) {
         if (e < 0.6) {
           tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_11.png`
 
-          if (chance(0.2)) {
+          if (chance(0.25)) {
             const ee = Math.random()
 
             const itemProbabilities = biomeToItemProbabilities[biome]

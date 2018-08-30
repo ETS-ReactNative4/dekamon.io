@@ -49,14 +49,6 @@ const normalTree = {
   },
 }
 
-// export function palmTree() {
-//
-// }
-//
-// export function pineTree() {
-//
-// }
-
 export const items = {
   normalTree,
 }
