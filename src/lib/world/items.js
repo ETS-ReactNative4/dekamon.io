@@ -3,20 +3,20 @@ import { randomArray } from '../utils'
 const normalTree = {
   create() {
     const leavesSource = randomArray([
-      '/images/Objects/tree_object_01.png',
-      '/images/Objects/tree_object_03.png',
-      '/images/Objects/tree_object_04.png',
-      '/images/Objects/tree_object_05.png',
-      '/images/Objects/tree_object_06.png',
-      '/images/Objects/tree_object_07.png',
+      '/images/items/tree_object_01.png',
+      '/images/items/tree_object_03.png',
+      '/images/items/tree_object_04.png',
+      '/images/items/tree_object_05.png',
+      '/images/items/tree_object_06.png',
+      '/images/items/tree_object_07.png',
     ])
 
     const trunkSource = randomArray([
-      '/images/Objects/trunk_object_04.png',
-      '/images/Objects/trunk_object_05.png',
+      '/images/items/trunk_object_04.png',
+      '/images/items/trunk_object_05.png',
     ])
 
-    const shadowSource = '/images/Objects/shadow_01.png'
+    const shadowSource = '/images/items/shadow_01.png'
 
     const size = randomArray([1, 2])
 
@@ -99,19 +99,19 @@ const normalTree = {
 const rock = {
   create() {
     const rockSource = randomArray([
-      '/images/Objects/stone_object_01.png',
-      '/images/Objects/stone_object_02.png',
-      '/images/Objects/stone_object_03.png',
-      '/images/Objects/stone_object_04.png',
-      '/images/Objects/stone_object_05.png',
-      '/images/Objects/stone_object_06.png',
-      '/images/Objects/stone_object_07.png',
-      '/images/Objects/stone_object_08.png',
-      '/images/Objects/stone_object_09.png',
-      '/images/Objects/stone_object_10.png',
+      '/images/items/stone_object_01.png',
+      '/images/items/stone_object_02.png',
+      '/images/items/stone_object_03.png',
+      '/images/items/stone_object_04.png',
+      '/images/items/stone_object_05.png',
+      '/images/items/stone_object_06.png',
+      '/images/items/stone_object_07.png',
+      '/images/items/stone_object_08.png',
+      '/images/items/stone_object_09.png',
+      '/images/items/stone_object_10.png',
     ])
 
-    const shadowSource = '/images/Objects/shadow_01.png'
+    const shadowSource = '/images/items/shadow_01.png'
 
     return {
       imageSources: [rockSource, shadowSource],

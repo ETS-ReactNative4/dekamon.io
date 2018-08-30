@@ -1,4 +1,5 @@
 https://www.gamedevmarket.net/asset/2d-topdown-tile-set-6645/
+https://www.gamedevmarket.net/asset/mobs-avatar-icons-8666/
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
