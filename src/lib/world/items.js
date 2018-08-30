@@ -32,64 +32,64 @@ const normalTree = {
   },
   draw(_, images, tileSize, x, y, parameters) {
     if (parameters.size === 1) {
-      const shadowScale = tileSize * 1.4
-      const trunkScale = tileSize * 0.7
-      const leavesScale = tileSize * 1.2
-      const trunkHeight = trunkScale * images[parameters.trunkSource].height / images[parameters.trunkSource].width
-      const leavesHeight = leavesScale * images[parameters.leavesSource].height / images[parameters.leavesSource].width
+      const shadowWidth = tileSize * 1.4
+      const trunkWidth = tileSize * 0.7
+      const leavesWidth = tileSize * 1.2
+      const trunkHeight = trunkWidth * images[parameters.trunkSource].height / images[parameters.trunkSource].width
+      const leavesHeight = leavesWidth * images[parameters.leavesSource].height / images[parameters.leavesSource].width
 
       _.globalAlpha = 0.5
       _.drawImage(
         images[parameters.shadowSource],
         (x - 0.2) * tileSize,
         (y + 0.25) * tileSize,
-        shadowScale,
-        shadowScale * images[parameters.shadowSource].height / images[parameters.shadowSource].width
+        shadowWidth,
+        shadowWidth * images[parameters.shadowSource].height / images[parameters.shadowSource].width
       )
       _.globalAlpha = 1
       _.drawImage(
         images[parameters.trunkSource],
         (x + 0.15) * tileSize,
         (y + 0.8) * tileSize - trunkHeight,
-        trunkScale,
+        trunkWidth,
         trunkHeight
       )
       _.drawImage(
         images[parameters.leavesSource],
         (x - 0.1) * tileSize,
         (y + 0.25) * tileSize - leavesHeight,
-        leavesScale,
+        leavesWidth,
         leavesHeight
       )
     }
     if (parameters.size === 2) {
-      const shadowScale = tileSize * 1.5
-      const trunkScale = tileSize * 0.8
-      const leavesScale = tileSize * 1.4
-      const trunkHeight = trunkScale * images[parameters.trunkSource].height / images[parameters.trunkSource].width
-      const leavesHeight = leavesScale * images[parameters.leavesSource].height / images[parameters.leavesSource].width
+      const shadowWidth = tileSize * 1.5
+      const trunkWidth = tileSize * 0.8
+      const leavesWidth = tileSize * 1.4
+      const trunkHeight = trunkWidth * images[parameters.trunkSource].height / images[parameters.trunkSource].width
+      const leavesHeight = leavesWidth * images[parameters.leavesSource].height / images[parameters.leavesSource].width
 
       _.globalAlpha = 0.5
       _.drawImage(
         images[parameters.shadowSource],
         (x - 0.25) * tileSize,
         (y + 0.15) * tileSize,
-        shadowScale,
-        shadowScale * images[parameters.shadowSource].height / images[parameters.shadowSource].width
+        shadowWidth,
+        shadowWidth * images[parameters.shadowSource].height / images[parameters.shadowSource].width
       )
       _.globalAlpha = 1
       _.drawImage(
         images[parameters.trunkSource],
         (x + 0.1) * tileSize,
         (y + 0.8) * tileSize - trunkHeight,
-        trunkScale,
+        trunkWidth,
         trunkHeight
       )
       _.drawImage(
         images[parameters.leavesSource],
         (x - 0.2) * tileSize,
         (y + 0.1) * tileSize - leavesHeight,
-        leavesScale,
+        leavesWidth,
         leavesHeight
       )
     }
@@ -98,7 +98,7 @@ const normalTree = {
 
 const rock = {
   create() {
-    const source = randomArray([
+    const rockSource = randomArray([
       '/images/Objects/stone_object_01.png',
       '/images/Objects/stone_object_02.png',
       '/images/Objects/stone_object_03.png',
@@ -111,23 +111,36 @@ const rock = {
       '/images/Objects/stone_object_10.png',
     ])
 
+    const shadowSource = '/images/Objects/shadow_01.png'
+
     return {
-      imageSources: [source],
+      imageSources: [rockSource, shadowSource],
       parameters: {
-        source,
+        rockSource,
+        shadowSource,
       },
     }
   },
   draw(_, images, tileSize, x, y, parameters) {
-    const width = tileSize * 0.8
-    const height = width * images[parameters.source].height / images[parameters.source].width
+    const shadowWidth = tileSize * 1.2
+    const rockWidth = tileSize * 0.8
+    const rockHeight = rockWidth * images[parameters.rockSource].height / images[parameters.rockSource].width
 
+    _.globalAlpha = 0.5
     _.drawImage(
-      images[parameters.source],
+      images[parameters.shadowSource],
+      (x - 0.1) * tileSize,
+      (y + 0.35) * tileSize,
+      shadowWidth,
+      shadowWidth * images[parameters.shadowSource].height / images[parameters.shadowSource].width
+    )
+    _.globalAlpha = 1
+    _.drawImage(
+      images[parameters.rockSource],
       (x + 0.1) * tileSize,
-      (y + 0.9) * tileSize - height,
-      width,
-      height
+      (y + 0.9) * tileSize - rockHeight,
+      rockWidth,
+      rockHeight
     )
   },
 }
