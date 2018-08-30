@@ -12,8 +12,6 @@ let useHeroImage1 = true
 let useHeroImage1Counter = 0
 const heroImage1Source = '/images/hero_1.png'
 const heroImage2Source = '/images/hero_2.png'
-const heroImageWidth = 166
-const heroImageHeight = 243
 
 function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
   _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
@@ -38,7 +36,7 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
     mapDefinition.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
         _.drawImage(images[tile.backgroundImageSource], i * tileSize, j * tileSize, tileSize, tileSize)
-        _.strokeRect(i * tileSize, j * tileSize, tileSize, tileSize)
+        // _.strokeRect(i * tileSize, j * tileSize, tileSize, tileSize)
       })
     })
 
@@ -95,12 +93,14 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
 
     if (!heroIsLookingLeft) _.scale(-1, 1)
 
+    const heroImage = images[useHeroImage1 ? heroImage1Source : heroImage2Source]
+
     _.drawImage(
-      images[useHeroImage1 ? heroImage1Source : heroImage2Source],
+      heroImage,
       heroIsLookingLeft ? heroX + tileSize * 0.15 : -heroX - 0.85 * tileSize,
       heroY - tileSize * 0.2,
       tileSize * 0.6,
-      tileSize * heroImageHeight / heroImageWidth * 0.6
+      tileSize * heroImage.height / heroImage.width * 0.6
     )
 
     _.restore()
