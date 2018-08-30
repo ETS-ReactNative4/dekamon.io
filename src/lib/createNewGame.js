@@ -1,6 +1,8 @@
 import store from '../state/store'
 import generateWorldMap from './generateWorldMap'
 import gameConfiguration from './gameConfiguration'
+import randomMonsterName from './monsterNames'
+import randomMonsterAvatarSource from './monsterAvatars'
 import { randomArray } from './utils'
 
 function createNewGame() {
@@ -35,6 +37,15 @@ function createNewGame() {
     payload: {
       position,
       finalPosition: position,
+    },
+  })
+
+  store.dispatch({
+    type: 'CREATE_PROGRAMON',
+    payload: {
+      name: randomMonsterName(),
+      avatarSource: randomMonsterAvatarSource(),
+      program: '',
     },
   })
 }

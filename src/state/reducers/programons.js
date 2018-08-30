@@ -1,8 +1,8 @@
-function maps(state = [], action) {
+function programons(state = [], action) {
 
   switch (action.type) {
 
-  case 'CREATE_MAP':
+  case 'CREATE_PROGRAMON':
     return [...state, action.payload]
 
   default:
@@ -10,4 +10,4 @@ function maps(state = [], action) {
   }
 }
 
-export default maps
+export default programons
