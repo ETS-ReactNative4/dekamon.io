@@ -3,6 +3,7 @@ import './App.css'
 
 import World from './World'
 import WorldMap from './WorldMap'
+import Inventory from './Inventory'
 
 class App extends Component {
 
@@ -37,6 +38,10 @@ class App extends Component {
 
               {mode === 'world-map' && (
                 <WorldMap close={this.closeMode} />
+              )}
+
+              {mode === 'inventory' && (
+                <Inventory close={this.closeMode} />
               )}
 
             </div>

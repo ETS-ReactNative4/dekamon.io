@@ -1,0 +1,23 @@
+.Inventory {
+  position: relative;
+  background-color: white;
+}
+
+.Inventory-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  cursor: pointer;
+}
+
+.Inventory-programon {
+  width: 60vw;
+}
+
+.Inventory-programon-programons-item-avatar {
+  width: 100px;
+}
+
+.Inventory-inventory {
+  width: 20vw;
+}
