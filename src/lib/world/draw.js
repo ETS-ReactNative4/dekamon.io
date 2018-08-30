@@ -1,4 +1,5 @@
 import loadImages from './loadImages'
+import { items } from './items'
 import gameConfiguration from '../gameConfiguration'
 
 let heroX = 0
@@ -27,12 +28,13 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
     mapDefinition.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
         _.drawImage(images[tile.backgroundImageSource], i * tileSize, j * tileSize, tileSize, tileSize)
+        // _.strokeRect(i * tileSize, j * tileSize, tileSize, tileSize)
       })
     })
 
     mapDefinition.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
-        if (tile.item) tile.item.draw(_, images, tileSize, i, j)
+        if (tile.item) items[tile.item.name].draw(_, images, tileSize, i, j, tile.item.parameters)
       })
     })
 

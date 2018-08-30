@@ -32,7 +32,7 @@ class World extends React.Component {
 
     return (
       <div ref={this.containerRef} style={{ height: '100%' }} className="x5">
-        <canvas ref={this.canvasRef} />
+        <canvas ref={this.canvasRef} style={{ border: '1px solid LightGrey' }} />
       </div>
     )
   }

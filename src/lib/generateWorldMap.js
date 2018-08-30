@@ -1,5 +1,5 @@
 import { chance, randomRange, randomArray } from './utils'
-import { normalTree } from './world/items'
+import { biomeToItemProbabilities, items } from './world/items'
 import gameConfiguration from './gameConfiguration'
 
 const width = gameConfiguration.worldWidth
@@ -238,7 +238,34 @@ function generateWorldMap(entries = {}) {
 
         if (e < 0.6) {
           tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_11.png`
-          // TODO add object
+
+          if (chance(0.2)) {
+            const ee = Math.random()
+
+            const itemProbabilities = biomeToItemProbabilities[biome]
+            const possibleItems = Object.keys(itemProbabilities)
+
+            if (possibleItems.length) {
+              const accumulatedProbabilities = []
+
+              possibleItems.forEach((item, i) => {
+                const previousProbability = i ? accumulatedProbabilities[i - 1][1] : 0
+
+                accumulatedProbabilities.push([previousProbability, itemProbabilities[item] + previousProbability])
+              })
+
+              const itemIndex = accumulatedProbabilities.findIndex(([p1, p2]) => p1 <= ee && ee < p2)
+              const item = possibleItems[itemIndex]
+
+              console.log('item:', item)
+              console.log('items:', items)
+              tile.item = {
+                name: item,
+                ...items[item].create(),
+              }
+            }
+
+          }
         }
         else if (e < 0.7) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_10.png`
         else if (e < 0.8) tile.backgroundImageSource = `/images/Sprites/${biome}/${biome}_tile_256_09.png`
@@ -255,9 +282,6 @@ function generateWorldMap(entries = {}) {
       }
     })
   })
-
-  tiles[gameConfiguration.worldHeight - 1][0].item = normalTree()
-  tiles[gameConfiguration.worldHeight - 3][4].item = normalTree()
 
   return {
     entries,
