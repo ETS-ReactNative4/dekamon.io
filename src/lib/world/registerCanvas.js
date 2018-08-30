@@ -17,13 +17,18 @@ function registerCanvas(canvasElement, dispatch) {
       y: Math.floor((e.clientY - rect.top) / tileSize),
     }
 
-    dispatch({
-      type: 'SET_HERO_FINAL_POSITION',
-      payload: {
-        finalPosition,
-        path: computeHeroPath(heroPosition.position, finalPosition, mapDefinition),
-      },
-    })
+    const tile = mapDefinition.tiles[finalPosition.y][finalPosition.x]
+
+    if (!tile.blocked) {
+      dispatch({
+        type: 'SET_HERO_FINAL_POSITION',
+        payload: {
+          finalPosition,
+          path: computeHeroPath(heroPosition.position, finalPosition, mapDefinition),
+        },
+      })
+    }
+
   })
 
   return (width, height, _mapDefinition, _heroPosition) => {

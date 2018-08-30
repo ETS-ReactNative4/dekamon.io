@@ -257,12 +257,12 @@ function generateWorldMap(entries = {}) {
               const itemIndex = accumulatedProbabilities.findIndex(([p1, p2]) => p1 <= ee && ee < p2)
               const item = possibleItems[itemIndex]
 
-              console.log('item:', item)
-              console.log('items:', items)
               tile.item = {
                 name: item,
                 ...items[item].create(),
               }
+
+              tile.blocked = true
             }
 
           }

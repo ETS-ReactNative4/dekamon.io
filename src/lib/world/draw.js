@@ -32,12 +32,6 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
       })
     })
 
-    mapDefinition.tiles.forEach((row, j) => {
-      row.forEach((tile, i) => {
-        if (tile.item) items[tile.item.name].draw(_, images, tileSize, i, j, tile.item.parameters)
-      })
-    })
-
     // Draw hero
     const { position, finalPosition, path } = heroPosition
 
@@ -83,6 +77,14 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
     _.arc(heroX, heroY, tileSize * 0.3, 0, 2 * Math.PI)
     _.closePath()
     _.fill()
+
+    // Draw items
+    mapDefinition.tiles.forEach((row, j) => {
+      row.forEach((tile, i) => {
+        if (tile.item) items[tile.item.name].draw(_, images, tileSize, i, j, tile.item.parameters)
+      })
+    })
+
   })
   .catch(console.error)
 }
