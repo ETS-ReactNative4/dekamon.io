@@ -95,11 +95,13 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
 
     if (!heroIsLookingLeft) _.scale(-1, 1)
 
-    const posX = heroIsLookingLeft ? heroX + tileSize * 0.15 : -heroX - 0.85 * tileSize
-    const posY = heroY - tileSize * 0.2
-
-    console.log('useHeroImage1:', useHeroImage1)
-    _.drawImage(images[useHeroImage1 ? heroImage1Source : heroImage2Source], posX, posY, tileSize * 0.6, tileSize * heroImageHeight / heroImageWidth * 0.6)
+    _.drawImage(
+      images[useHeroImage1 ? heroImage1Source : heroImage2Source],
+      heroIsLookingLeft ? heroX + tileSize * 0.15 : -heroX - 0.85 * tileSize,
+      heroY - tileSize * 0.2,
+      tileSize * 0.6,
+      tileSize * heroImageHeight / heroImageWidth * 0.6
+    )
 
     _.restore()
 
