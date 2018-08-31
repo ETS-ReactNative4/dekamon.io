@@ -4,22 +4,30 @@ import draw from './draw'
 
 function registerCanvas(canvasElement, dispatch) {
 
+
   const _ = canvasElement.getContext('2d')
   let tileSize
   let mapDefinition
   let heroPosition
 
+  // For debug purposes
+  window.canvas = canvasElement
+  window._ = _
+
   canvasElement.addEventListener('click', e => {
     const rect = canvasElement.getBoundingClientRect()
 
+    const borderWidth = window.getComputedStyle(canvasElement).getPropertyValue('border-width') // 10px
+    const borderWidthInPixed = parseInt(borderWidth.slice(0, borderWidth.length - 2), 10) // Remove "px"
+
     const finalPosition = {
-      x: Math.floor((e.clientX - rect.left) / tileSize),
-      y: Math.floor((e.clientY - rect.top) / tileSize),
+      x: Math.floor((e.clientX - rect.left - borderWidthInPixed) / tileSize),
+      y: Math.floor((e.clientY - rect.top - borderWidthInPixed) / tileSize),
     }
 
-    const tile = mapDefinition.tiles[finalPosition.y][finalPosition.x]
+    const tile = mapDefinition.tiles[finalPosition.y] && mapDefinition.tiles[finalPosition.y][finalPosition.x]
 
-    if (!tile.blocked) {
+    if (tile && !tile.blocked) {
       dispatch({
         type: 'SET_HERO_FINAL_POSITION',
         payload: {

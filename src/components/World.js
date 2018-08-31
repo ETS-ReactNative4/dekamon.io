@@ -31,10 +31,16 @@ class World extends React.Component {
   }
 
   render() {
+    const { currentMap, heroPosition } = this.props
+    const heroIsOnARoad = currentMap.tiles[heroPosition.position.y][heroPosition.position.x].road
 
     return (
       <div ref={this.containerRef} className="World x5">
-        <canvas ref={this.canvasRef} className="World-canvas" />
+        <canvas
+          ref={this.canvasRef}
+          className="World-canvas"
+          style={{ animation: heroIsOnARoad ? 'none' : 'World-border-pulsate 2s infinite' }}
+        />
       </div>
     )
   }
