@@ -12,12 +12,37 @@
 
 .Inventory-programon {
   width: 60vw;
+  padding: 10px;
+}
+
+.Inventory-programon-programons {
+  width: 100%;
+}
+
+.Inventory-programon-programons-item {
+  width: calc((60vw - 5 * 20px) / 5);
+  margin: 0px 10px;
+  text-align: center;
+  border-bottom: 1px solid white;
+  padding-bottom: 5px;
+}
+
+.Inventory-programon-programons-item_selected {
+  border-bottom: 1px solid black;
 }
 
 .Inventory-programon-programons-item-avatar {
   width: 100px;
+  border: 1px solid black;
 }
 
+.Inventory-programon-lead {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
 .Inventory-inventory {
   width: 20vw;
+  padding: 10px;
 }

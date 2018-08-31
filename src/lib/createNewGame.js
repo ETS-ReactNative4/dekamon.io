@@ -40,14 +40,16 @@ function createNewGame() {
     },
   })
 
-  store.dispatch({
-    type: 'CREATE_PROGRAMON',
-    payload: {
-      name: randomMonsterName(),
-      avatarSource: randomMonsterAvatarSource(),
-      program: '',
-    },
-  })
+  for (let i = 0; i < 5; i++) {
+    store.dispatch({
+      type: 'CREATE_PROGRAMON',
+      payload: {
+        name: randomMonsterName(),
+        avatarSource: randomMonsterAvatarSource(),
+        program: '',
+      },
+    })
+  }
 }
 
 export default createNewGame

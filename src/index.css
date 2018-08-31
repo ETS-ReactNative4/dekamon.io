@@ -1,11 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+html {
+  font-family: 'Lato', sans-serif;
+}
+
+/* Utilities */
+
+.relative {
+  position: relative;
+}
+
 .flex-grow {
   flex-grow: 1;
 }
 
 .no-select {
   user-select: none;
-}
-
-.relative {
-  position: relative;
 }
