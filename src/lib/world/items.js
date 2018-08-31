@@ -154,12 +154,12 @@ export const items = {
 export const biomeToItemProbabilities = {
   clay: {},
   grass_01: {
-    normalTree: 0.9,
-    rock: 0.1,
+    normalTree: 0.85,
+    rock: 0.15,
   },
   grass_02: {
-    normalTree: 0.9,
-    rock: 0.1,
+    normalTree: 0.85,
+    rock: 0.15,
   },
   paving_01: {},
   paving_02: {},

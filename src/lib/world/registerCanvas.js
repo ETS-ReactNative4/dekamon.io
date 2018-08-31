@@ -25,6 +25,7 @@ function registerCanvas(canvasElement, dispatch) {
       y: Math.floor((e.clientY - rect.top - borderWidthInPixed) / tileSize),
     }
 
+    // Tile can be undefined as the canvas is larger than the drawned tiles for some reason
     const tile = mapDefinition.tiles[finalPosition.y] && mapDefinition.tiles[finalPosition.y][finalPosition.x]
 
     if (tile && !tile.blocked) {
