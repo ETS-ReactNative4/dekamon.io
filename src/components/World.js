@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import registerCanvas from '../lib/world/registerCanvas'
+import gameConfiguration from '../lib/gameConfiguration'
 import './World.css'
 
 class World extends React.Component {
@@ -10,28 +11,30 @@ class World extends React.Component {
   canvasRef = React.createRef()
 
   componentDidMount() {
+    window.addEventListener('resize', this.updateTileSize)
+
+    this.updateTileSize()
+
+    registerCanvas(this.canvasRef.current)
+  }
+
+  updateTileSize = () => {
     const { dispatch } = this.props
-
-    this.updateCanvasParameters = registerCanvas(this.canvasRef.current, dispatch)
-
-    window.addEventListener('resize', this.updateCanvas)
-
-    this.updateCanvas()
-  }
-
-  componentDidUpdate() {
-    this.updateCanvas()
-  }
-
-  updateCanvas = () => {
     const { clientWidth, clientHeight } = this.containerRef.current
 
-    this.updateCanvasParameters(clientWidth, clientHeight)
+    const tileSize1 = clientWidth / gameConfiguration.worldWidth
+    const tileSize2 = clientHeight / gameConfiguration.worldHeight
+    const tileSize = Math.min(tileSize1, tileSize2)
+
+    dispatch({
+      type: 'SET_TILESIZE',
+      payload: tileSize,
+    })
   }
 
   render() {
-    const { currentMap, heroPosition } = this.props
-    const heroIsOnARoad = currentMap.tiles[heroPosition.position.y][heroPosition.position.x].road
+    const { currentMap, hero } = this.props
+    const heroIsOnARoad = currentMap.tiles[hero.position.y][hero.position.x].road
 
     return (
       <div ref={this.containerRef} className="World x5">
@@ -47,7 +50,7 @@ class World extends React.Component {
 
 const mapStateToProps = s => ({
   currentMap: s.currentMap,
-  heroPosition: s.heroPosition,
+  hero: s.hero,
 })
 
 export default connect(mapStateToProps)(World)

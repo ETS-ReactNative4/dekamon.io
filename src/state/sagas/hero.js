@@ -4,39 +4,39 @@ import generateWorldMap from '../../lib/generateWorldMap'
 import store from '../store'
 
 function* updateWorldMap() {
-  const { heroPosition, currentMap, maps } = store.getState()
+  const { hero, currentMap, maps } = store.getState()
 
-  if (heroPosition.position.x !== heroPosition.finalPosition.x || heroPosition.position.y !== heroPosition.finalPosition.y) return
-  
+  if (hero.position.x !== hero.destination.x || hero.position.y !== hero.destination.y) return
+
   let { x, y } = currentMap.position
   let nextHeroPosition
 
-  if (currentMap.entries.north && heroPosition.position.x === currentMap.entries.north && heroPosition.position.y === 0) {
+  if (currentMap.entries.north && hero.position.x === currentMap.entries.north && hero.position.y === 0) {
     y--
     nextHeroPosition = {
-      x: heroPosition.position.x,
+      x: hero.position.x,
       y: gameConfiguration.worldHeight - 1,
     }
   }
-  if (currentMap.entries.south && heroPosition.position.x === currentMap.entries.south && heroPosition.position.y === gameConfiguration.worldHeight - 1) {
+  if (currentMap.entries.south && hero.position.x === currentMap.entries.south && hero.position.y === gameConfiguration.worldHeight - 1) {
     y++
     nextHeroPosition = {
-      x: heroPosition.position.x,
+      x: hero.position.x,
       y: 0,
     }
   }
-  if (currentMap.entries.west && heroPosition.position.y === currentMap.entries.west && heroPosition.position.x === 0) {
+  if (currentMap.entries.west && hero.position.y === currentMap.entries.west && hero.position.x === 0) {
     x--
     nextHeroPosition = {
       x: gameConfiguration.worldWidth - 1,
-      y: heroPosition.position.y,
+      y: hero.position.y,
     }
   }
-  if (currentMap.entries.east && heroPosition.position.y === currentMap.entries.east && heroPosition.position.x === gameConfiguration.worldWidth - 1) {
+  if (currentMap.entries.east && hero.position.y === currentMap.entries.east && hero.position.x === gameConfiguration.worldWidth - 1) {
     x++
     nextHeroPosition = {
       x: 0,
-      y: heroPosition.position.y,
+      y: hero.position.y,
     }
   }
 
@@ -47,7 +47,7 @@ function* updateWorldMap() {
       type: 'SET_HERO_POSITION',
       payload: {
         position: nextHeroPosition,
-        finalPosition: nextHeroPosition,
+        destination: nextHeroPosition,
       },
     })
 
@@ -77,13 +77,20 @@ function* updateWorldMap() {
         },
       })
     }
-
-
   }
 }
 
-function* heroPositionSaga() {
-  yield takeEvery('POP_HERO_POSITION', updateWorldMap)
+function updateHeroPosition() {
+  const { tileSize, hero: { position, canvasPosition, destination, path }} = store.getState()
+
+  const heroIsAtFinalPosition = position.x === destination.x && position.y === destination.y
+
+
 }
 
-export default heroPositionSaga
+function* heroSaga() {
+  yield takeEvery('POP_HERO_POSITION', updateWorldMap)
+  yield takeEvery('SET_HERO_DESTINATION', updateHeroPosition)
+}
+
+export default heroSaga

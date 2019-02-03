@@ -36,7 +36,7 @@ function createNewGame() {
     type: 'SET_HERO_POSITION',
     payload: {
       position,
-      finalPosition: position,
+      destination: position,
     },
   })
 

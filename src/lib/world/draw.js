@@ -3,19 +3,14 @@ import { items } from './items'
 import gameConfiguration from '../gameConfiguration'
 import store from '../../state/store'
 
-let heroX = 0
-let heroY = 0
-let heroTimeout
-let lastFinalPosition
-let lastPosition
-let heroIsLookingLeft = false
-let useHeroImage1 = true
-let useHeroImage1Counter = 0
 const heroImage1Source = '/images/hero_1.png'
 const heroImage2Source = '/images/hero_2.png'
 
-function draw(_, tileSize) {
-  const { currentMap, heroPosition } = store.getState()
+function draw(_) {
+  const { tileSize, currentMap, hero } = store.getState()
+
+  _.canvas.width = tileSize * gameConfiguration.worldWidth
+  _.canvas.height = tileSize * gameConfiguration.worldHeight
 
   _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
 
@@ -33,7 +28,7 @@ function draw(_, tileSize) {
     })
   })
 
-  loadImages(imageSourcesToLoad)
+  return loadImages(imageSourcesToLoad)
   .then(images => {
 
     // Draw background
@@ -44,55 +39,6 @@ function draw(_, tileSize) {
       })
     })
 
-    // Compute hero parameters
-    const { position, finalPosition, path } = heroPosition
-
-    const heroIsAtFinalPosition = position.x === finalPosition.x && position.y === finalPosition.y
-
-    if (lastPosition !== position) {
-      lastPosition = position
-      clearTimeout(heroTimeout)
-    }
-
-    if (lastFinalPosition !== finalPosition) {
-      lastFinalPosition = finalPosition
-      clearTimeout(heroTimeout)
-    }
-
-    if (heroIsAtFinalPosition) {
-      heroX = position.x * tileSize
-      heroY = position.y * tileSize
-      useHeroImage1 = true
-      useHeroImage1Counter = 0
-    }
-    else {
-      const nextPosition = path[0]
-      const diffX = nextPosition.x * tileSize - heroX
-      const diffY = nextPosition.y * tileSize - heroY
-
-      if (diffX) heroIsLookingLeft = diffX < 0
-
-      // if hero is close to nextPosition
-      if (Math.abs(diffX) < 5 && Math.abs(diffY) < 5) {
-        heroX = nextPosition.x * tileSize
-        heroY = nextPosition.y * tileSize
-
-        store.dispatch({ type: 'POP_HERO_POSITION' })
-      }
-      else {
-        useHeroImage1Counter++
-
-        if (!(useHeroImage1Counter % 10)) useHeroImage1 = !useHeroImage1
-
-        const increment = tileSize / 20
-
-        heroX += diffX === 0 ? 0 : diffX > 0 ? increment : -increment
-        heroY += diffY === 0 ? 0 : diffY > 0 ? increment : -increment
-
-        heroTimeout = setTimeout(() => draw(_, tileSize), 10)
-      }
-    }
-
     // Draw items
     currentMap.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
@@ -101,23 +47,23 @@ function draw(_, tileSize) {
 
       // Draw hero at correct position
       // So items don't overflow him
-      if (j === position.y) {
-        _.save()
-
-        if (!heroIsLookingLeft) _.scale(-1, 1)
-
-        const heroImage = images[useHeroImage1 ? heroImage1Source : heroImage2Source]
-
-        _.drawImage(
-          heroImage,
-          heroIsLookingLeft ? heroX + tileSize * 0.15 : -heroX - 0.85 * tileSize,
-          heroY - tileSize * 0.2,
-          tileSize * 0.6,
-          tileSize * heroImage.height / heroImage.width * 0.6
-        )
-
-        _.restore()
-      }
+      // if (j === position.y) {
+      //   _.save()
+      //
+      //   if (!heroIsLookingLeft) _.scale(-1, 1)
+      //
+      //   const heroImage = images[useHeroImage1 ? heroImage1Source : heroImage2Source]
+      //
+      //   _.drawImage(
+      //     heroImage,
+      //     heroIsLookingLeft ? heroX + tileSize * 0.15 : -heroX - 0.85 * tileSize,
+      //     heroY - tileSize * 0.2,
+      //     tileSize * 0.6,
+      //     tileSize * heroImage.height / heroImage.width * 0.6
+      //   )
+      //
+      //   _.restore()
+      // }
     })
 
   })

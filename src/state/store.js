@@ -3,22 +3,24 @@ import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
 
 import currentMap from './reducers/currentMap'
-import heroPosition from './reducers/heroPosition'
+import hero from './reducers/hero'
 import maps from './reducers/maps'
 import programons from './reducers/programons'
+import tileSize from './reducers/tileSize'
 
-import heroPositionSaga from './sagas/heroPosition'
+import heroSaga from './sagas/hero'
 
 const reducer = combineReducers({
   currentMap,
-  heroPosition,
+  hero,
   maps,
   programons,
+  tileSize,
 })
 
 function* rootSaga() {
   yield all([
-    heroPositionSaga(),
+    heroSaga(),
   ])
 }
 
