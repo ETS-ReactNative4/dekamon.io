@@ -8,8 +8,8 @@ import Inventory from './Inventory'
 class App extends Component {
 
   state = {
-    // mode: null,
-    mode: 'inventory',
+    mode: null,
+    // mode: 'inventory',
   }
 
   closeMode = () => this.setState({ mode: null })

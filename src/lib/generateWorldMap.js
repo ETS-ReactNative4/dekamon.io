@@ -84,9 +84,13 @@ function generateWorldMap(entries = {}) {
 
   // Create some isolated points groups to randomize the map
   const nIsolatedPoints = randomRange(1, 4)
+  const isolatedPointsOffset = 3
 
   for (let i = 0; i < nIsolatedPoints; i++) {
-    groups.push([{ x: randomRange(3, width - 4), y: randomRange(3, height - 4) }])
+    groups.push([{
+      x: randomRange(isolatedPointsOffset, width - isolatedPointsOffset - 1),
+      y: randomRange(isolatedPointsOffset, height - isolatedPointsOffset - 1),
+    }])
   }
 
   while (groups.length > 1) {

@@ -1,6 +1,7 @@
 import loadImages from './loadImages'
 import { items } from './items'
 import gameConfiguration from '../gameConfiguration'
+import store from '../../state/store'
 
 let heroX = 0
 let heroY = 0
@@ -13,7 +14,9 @@ let useHeroImage1Counter = 0
 const heroImage1Source = '/images/hero_1.png'
 const heroImage2Source = '/images/hero_2.png'
 
-function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
+function draw(_, tileSize) {
+  const { currentMap, heroPosition } = store.getState()
+
   _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
 
   const imageSourcesToLoad = [
@@ -21,7 +24,8 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
     heroImage2Source,
   ]
 
-  mapDefinition.tiles.forEach(row => {
+  // Set images to load
+  currentMap.tiles.forEach(row => {
     row.forEach(tile => {
       imageSourcesToLoad.push(tile.backgroundImageSource)
 
@@ -33,7 +37,7 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
   .then(images => {
 
     // Draw background
-    mapDefinition.tiles.forEach((row, j) => {
+    currentMap.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
         _.drawImage(images[tile.backgroundImageSource], i * tileSize, j * tileSize, tileSize, tileSize)
         // _.strokeRect(i * tileSize, j * tileSize, tileSize, tileSize)
@@ -73,7 +77,7 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
         heroX = nextPosition.x * tileSize
         heroY = nextPosition.y * tileSize
 
-        dispatch({ type: 'POP_HERO_POSITION' })
+        store.dispatch({ type: 'POP_HERO_POSITION' })
       }
       else {
         useHeroImage1Counter++
@@ -85,12 +89,12 @@ function draw(_, dispatch, tileSize, mapDefinition, heroPosition) {
         heroX += diffX === 0 ? 0 : diffX > 0 ? increment : -increment
         heroY += diffY === 0 ? 0 : diffY > 0 ? increment : -increment
 
-        heroTimeout = setTimeout(() => draw(_, dispatch, tileSize, mapDefinition, heroPosition), 10)
+        heroTimeout = setTimeout(() => draw(_, tileSize), 10)
       }
     }
 
     // Draw items
-    mapDefinition.tiles.forEach((row, j) => {
+    currentMap.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
         if (tile.item) items[tile.item.name].draw(_, images, tileSize, i, j, tile.item.parameters)
       })
