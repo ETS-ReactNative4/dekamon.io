@@ -81,31 +81,52 @@ function* updateWorldMap() {
 }
 
 function updateHeroPosition() {
-  const { position, canvasPosition, destination, path } = store.getState().hero
+  const { position, destination, path } = store.getState().hero
 
   const heroIsAtDestination = position.x === destination.x && position.y === destination.y
 
   if (!heroIsAtDestination) {
-    const nextPosition = path[0]
 
     let c = 0
-    
-    let interval = setInterval(() => {
+
+    const interval = setInterval(() => {
+      c += 0.1
+
+      console.log(c)
+      if (c >= 1) {
+        clearInterval(interval)
+
+        store.dispatch({
+          type: 'POP_HERO_POSITION',
+        })
+
+        return
+      }
+
+      const nextPosition = path[0]
 
       const diffX = nextPosition.x - position.x
       const diffY = nextPosition.y - position.y
 
-      let canvasPosition = {
-        x: diffX,
-        y: diffY,
+      const canvasDiffPosition = {
+        x: diffX * c,
+        y: diffY * c,
       }
-    }, 100)
+
+      console.log(canvasDiffPosition)
+
+      store.dispatch({
+        type: 'SET_HERO_POSITION',
+        payload: { canvasDiffPosition },
+      })
+    }, 50)
   }
 }
 
 function* heroSaga() {
   yield takeEvery('POP_HERO_POSITION', updateWorldMap)
   yield takeEvery('SET_HERO_DESTINATION', updateHeroPosition)
+  yield takeEvery('POP_HERO_POSITION', updateHeroPosition)
 }
 
 export default heroSaga

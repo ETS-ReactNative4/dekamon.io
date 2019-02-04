@@ -22,6 +22,10 @@ function hero(state = {}, action) {
       ...state,
       path,
       position,
+      canvasDiffPosition: {
+        x: 0,
+        y: 0,
+      },
     }
   }
 

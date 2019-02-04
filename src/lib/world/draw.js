@@ -51,9 +51,9 @@ function draw(_) {
       if (j === position.y) {
         _.save()
 
-        const useHeroImage1 = true
+        const useHeroImage1 = Math.abs(canvasDiffPosition.x + canvasDiffPosition.y) % 0.2 < 0.1
 
-        heroIsLookingLeft = destination.x < position.x
+        heroIsLookingLeft = destination.x === position.x ? heroIsLookingLeft : destination.x < position.x
 
         if (!heroIsLookingLeft) _.scale(-1, 1)
 
