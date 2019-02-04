@@ -37,6 +37,7 @@ function createNewGame() {
     payload: {
       position,
       destination: position,
+      canvasDiffPosition: { x: 0, y: 0 },
     },
   })
 

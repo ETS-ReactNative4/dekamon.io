@@ -3,11 +3,12 @@ import { items } from './items'
 import gameConfiguration from '../gameConfiguration'
 import store from '../../state/store'
 
+let heroIsLookingLeft = false
 const heroImage1Source = '/images/hero_1.png'
 const heroImage2Source = '/images/hero_2.png'
 
 function draw(_) {
-  const { tileSize, currentMap, hero } = store.getState()
+  const { tileSize, currentMap, hero: { position, destination, canvasDiffPosition } } = store.getState()
 
   _.canvas.width = tileSize * gameConfiguration.worldWidth
   _.canvas.height = tileSize * gameConfiguration.worldHeight
@@ -47,23 +48,27 @@ function draw(_) {
 
       // Draw hero at correct position
       // So items don't overflow him
-      // if (j === position.y) {
-      //   _.save()
-      //
-      //   if (!heroIsLookingLeft) _.scale(-1, 1)
-      //
-      //   const heroImage = images[useHeroImage1 ? heroImage1Source : heroImage2Source]
-      //
-      //   _.drawImage(
-      //     heroImage,
-      //     heroIsLookingLeft ? heroX + tileSize * 0.15 : -heroX - 0.85 * tileSize,
-      //     heroY - tileSize * 0.2,
-      //     tileSize * 0.6,
-      //     tileSize * heroImage.height / heroImage.width * 0.6
-      //   )
-      //
-      //   _.restore()
-      // }
+      if (j === position.y) {
+        _.save()
+
+        const useHeroImage1 = true
+
+        heroIsLookingLeft = destination.x < position.x
+
+        if (!heroIsLookingLeft) _.scale(-1, 1)
+
+        const heroImage = images[useHeroImage1 ? heroImage1Source : heroImage2Source]
+
+        _.drawImage(
+          heroImage,
+          heroIsLookingLeft ? tileSize * (position.x + canvasDiffPosition.x + 0.15) : -tileSize * (position.x + canvasDiffPosition.x + 0.85),
+          tileSize * (position.y + canvasDiffPosition.y - 0.2),
+          tileSize * 0.6,
+          tileSize * heroImage.height / heroImage.width * 0.6
+        )
+
+        _.restore()
+      }
     })
 
   })

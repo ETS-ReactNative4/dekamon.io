@@ -41,8 +41,6 @@ function* updateWorldMap() {
   }
 
   if (nextHeroPosition) {
-    const nextMap = maps.find(map => map.position.x === x && map.position.y === y)
-
     yield put({
       type: 'SET_HERO_POSITION',
       payload: {
@@ -50,6 +48,8 @@ function* updateWorldMap() {
         destination: nextHeroPosition,
       },
     })
+
+    const nextMap = maps.find(map => map.position.x === x && map.position.y === y)
 
     if (nextMap) {
       yield put({ type: 'SET_CURRENT_MAP', payload: nextMap })
@@ -81,11 +81,26 @@ function* updateWorldMap() {
 }
 
 function updateHeroPosition() {
-  const { tileSize, hero: { position, canvasPosition, destination, path }} = store.getState()
+  const { position, canvasPosition, destination, path } = store.getState().hero
 
-  const heroIsAtFinalPosition = position.x === destination.x && position.y === destination.y
+  const heroIsAtDestination = position.x === destination.x && position.y === destination.y
 
+  if (!heroIsAtDestination) {
+    const nextPosition = path[0]
 
+    let c = 0
+    
+    let interval = setInterval(() => {
+
+      const diffX = nextPosition.x - position.x
+      const diffY = nextPosition.y - position.y
+
+      let canvasPosition = {
+        x: diffX,
+        y: diffY,
+      }
+    }, 100)
+  }
 }
 
 function* heroSaga() {

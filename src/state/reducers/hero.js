@@ -1,7 +1,7 @@
 // {
 //  position: x, y coordinates of the hero's current tile
 //  destination: x, y coordinates of the hero's destination tile
-//  canvasPosition: px, py position of the hero on the canvas
+//  canvasDiffPosition: dx, dy position of the hero on the canvas
 //  path: array of x, y coordinates representing the path for position to destination
 // }
 function hero(state = {}, action) {
@@ -9,7 +9,6 @@ function hero(state = {}, action) {
 
   case 'SET_HERO_POSITION':
   case 'SET_HERO_DESTINATION':
-  case 'SET_HERO_CANVAS_POSITION':
     return {
       ...state,
       ...action.payload,
