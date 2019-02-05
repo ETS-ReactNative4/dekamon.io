@@ -80,46 +80,98 @@ function* updateWorldMap() {
   }
 }
 
-function updateHeroPosition() {
-  const { position, destination, path } = store.getState().hero
+// The loop that make the hero move
+let interval
 
+// Move hero
+function updateHeroPosition() {
+  const {
+    position,
+    canvasOffset,
+    nextPosition,
+    destination,
+    path,
+  } = store.getState().hero
+
+  clearInterval(interval)
+
+  const offset = canvasOffset.x || canvasOffset.y
+  const heroIsOffseted = Math.abs(offset) > 0.05
   const heroIsAtDestination = position.x === destination.x && position.y === destination.y
 
+  // If destination has been updated and the hero is offseted
+  // we need to cancel or complete the offset first
+  // before we can remuse walking the path
+  if (heroIsOffseted) {
+    const nextPositionIsOnPath = nextPosition.x === path[0].x && nextPosition.y === path[0].y
+    const diffX = nextPosition.x - position.x
+    const diffY = nextPosition.y - position.y
+
+    let c = Math.abs(offset)
+
+    return interval = setInterval(() => {
+      if (nextPositionIsOnPath) c += 0.1 // complete the offset
+      else c -= 0.1 // cancel the offset
+
+      if (c >= 1) { // complete the offset - end
+        clearInterval(interval)
+
+        return store.dispatch({
+          type: 'POP_HERO_POSITION',
+        })
+      }
+
+      if (c < 0) { // cancel the offset - end
+        clearInterval(interval)
+
+        return store.dispatch({
+          type: 'UPDATE_HERO_POSITION',
+        })
+      }
+
+      // Update canvasOffset
+      store.dispatch({
+        type: 'SET_HERO_POSITION',
+        payload: {
+          canvasOffset: {
+            x: diffX * c,
+            y: diffY * c,
+          },
+        },
+      })
+    }, 25)
+  }
+
+  // If hero is not at destination we walk the path
   if (!heroIsAtDestination) {
+    const diffX = path[0].x - position.x
+    const diffY = path[0].y - position.y
 
-    let c = 0
+    let c = 0 // canvas offset
 
-    const interval = setInterval(() => {
+    interval = setInterval(() => {
       c += 0.1
 
-      console.log(c)
+      // When offset is completed we clear the interval and pop the path
       if (c >= 1) {
         clearInterval(interval)
 
-        store.dispatch({
+        return store.dispatch({
           type: 'POP_HERO_POSITION',
         })
-
-        return
       }
 
-      const nextPosition = path[0]
-
-      const diffX = nextPosition.x - position.x
-      const diffY = nextPosition.y - position.y
-
-      const canvasDiffPosition = {
-        x: diffX * c,
-        y: diffY * c,
-      }
-
-      console.log(canvasDiffPosition)
-
+      // Update canvasOffset
       store.dispatch({
         type: 'SET_HERO_POSITION',
-        payload: { canvasDiffPosition },
+        payload: {
+          canvasOffset: {
+            x: diffX * c,
+            y: diffY * c,
+          },
+        },
       })
-    }, 50)
+    }, 25)
   }
 }
 
@@ -127,6 +179,7 @@ function* heroSaga() {
   yield takeEvery('POP_HERO_POSITION', updateWorldMap)
   yield takeEvery('SET_HERO_DESTINATION', updateHeroPosition)
   yield takeEvery('POP_HERO_POSITION', updateHeroPosition)
+  yield takeEvery('UPDATE_HERO_POSITION', updateHeroPosition)
 }
 
 export default heroSaga

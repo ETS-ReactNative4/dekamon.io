@@ -8,7 +8,7 @@ const heroImage1Source = '/images/hero_1.png'
 const heroImage2Source = '/images/hero_2.png'
 
 function draw(_) {
-  const { tileSize, currentMap, hero: { position, destination, canvasDiffPosition } } = store.getState()
+  const { tileSize, currentMap, hero: { position, destination, canvasOffset } } = store.getState()
 
   _.canvas.width = tileSize * gameConfiguration.worldWidth
   _.canvas.height = tileSize * gameConfiguration.worldHeight
@@ -51,7 +51,9 @@ function draw(_) {
       if (j === position.y) {
         _.save()
 
-        const useHeroImage1 = Math.abs(canvasDiffPosition.x + canvasDiffPosition.y) % 0.2 < 0.1
+        const useHeroImage1 =
+          canvasOffset.x + canvasOffset.y === 0 || // Use second image only when moving
+          ((destination.x + destination.y) - (position.x + position.y)) % 2 === 0
 
         heroIsLookingLeft = destination.x === position.x ? heroIsLookingLeft : destination.x < position.x
 
@@ -61,8 +63,8 @@ function draw(_) {
 
         _.drawImage(
           heroImage,
-          heroIsLookingLeft ? tileSize * (position.x + canvasDiffPosition.x + 0.15) : -tileSize * (position.x + canvasDiffPosition.x + 0.85),
-          tileSize * (position.y + canvasDiffPosition.y - 0.2),
+          heroIsLookingLeft ? tileSize * (position.x + canvasOffset.x + 0.15) : -tileSize * (position.x + canvasOffset.x + 0.85),
+          tileSize * (position.y + canvasOffset.y - 0.2),
           tileSize * 0.6,
           tileSize * heroImage.height / heroImage.width * 0.6
         )

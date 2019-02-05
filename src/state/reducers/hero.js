@@ -1,7 +1,7 @@
 // {
 //  position: x, y coordinates of the hero's current tile
 //  destination: x, y coordinates of the hero's destination tile
-//  canvasDiffPosition: dx, dy position of the hero on the canvas
+//  canvasOffset: dx, dy position of the hero on the canvas
 //  path: array of x, y coordinates representing the path for position to destination
 // }
 function hero(state = {}, action) {
@@ -17,12 +17,12 @@ function hero(state = {}, action) {
   case 'POP_HERO_POSITION': {
     const path = state.path.slice()
     const position = path.shift()
-
     return {
       ...state,
       path,
       position,
-      canvasDiffPosition: {
+      nextPosition: path[0],
+      canvasOffset: {
         x: 0,
         y: 0,
       },
