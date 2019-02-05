@@ -29,7 +29,11 @@ class Inventory extends React.Component {
                 onClick={() => this.setState({ selectedProgramon: programon })}
                 className={`Inventory-programon-programons-item ${selectedProgramon === programon ? 'Inventory-programon-programons-item_selected' : ''} y8 no-select`}
               >
-                <img className="Inventory-programon-programons-item-avatar" src={programon.avatarSource} />
+                <img
+                  className="Inventory-programon-programons-item-avatar"
+                  src={programon.avatarSource}
+                  alt=""
+                />
                 <div className="Inventory-programon-programons-item-name">
                   {programon.name}
                 </div>

@@ -180,6 +180,7 @@ function generateWorldMap(entries = {}) {
       }
     }
 
+    // eslint-disable-next-line
     groupsToMerge.forEach(([i, j]) => {
       groups[i].push(...groups[j])
       groups[j] = groups[i]
