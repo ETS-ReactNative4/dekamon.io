@@ -33,8 +33,13 @@ class World extends React.Component {
   }
 
   render() {
+    const { position } = this.props
+
     return (
-      <div ref={this.containerRef} className="World x5">
+      <div ref={this.containerRef} className="World relative x5">
+        <div className="World-position">
+          {position.x} {position.y}
+        </div>
         <canvas
           ref={this.canvasRef}
           className="World-canvas no-select"
@@ -44,4 +49,8 @@ class World extends React.Component {
   }
 }
 
-export default connect()(World)
+const mapStateToProps = s => ({
+  position: s.currentMap.position,
+})
+
+export default connect(mapStateToProps)(World)

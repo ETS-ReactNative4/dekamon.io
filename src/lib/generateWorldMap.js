@@ -1,5 +1,6 @@
-import { chance, randomRange, randomArray } from './utils'
+import { chance, randomRange, randomArray, randomPop } from './utils'
 import { biomeToItemProbabilities, items } from './world/items'
+import generateMonstersGroup from './monsters/generateMonstersGroup'
 import gameConfiguration from './gameConfiguration'
 
 const width = gameConfiguration.worldWidth
@@ -9,9 +10,10 @@ function computeDistance(p1, p2) {
   return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y)
 }
 
-function generateWorldMap(entries = {}) {
+function generateWorldMap(entries = {}, position) {
   // Pick biome at random
-  // TODO: pick biomes from surronding maps
+  // TODO: pick biomes from surronding maps and mapLevel
+  const mapLevel = Math.abs(position.x) + Math.abs(position.y)
   const biome = randomArray(gameConfiguration.availableBiomes)
 
   // Create empty tiles
@@ -234,6 +236,8 @@ function generateWorldMap(entries = {}) {
     })
   })
 
+  const nonRoadNonBlockedTiles = []
+
   // For each non-road tile, assign the correct background image
   tiles.forEach((row, y) => {
     row.forEach((tile, x) => {
@@ -270,7 +274,6 @@ function generateWorldMap(entries = {}) {
 
               tile.blocked = true
             }
-
           }
         }
         else if (e < 0.7) tile.backgroundImageSource = `/images/background_tiles/${biome}/${biome}_tile_256_10.png`
@@ -284,15 +287,27 @@ function generateWorldMap(entries = {}) {
         else if (e < 0.98) tile.backgroundImageSource = `/images/background_tiles/${biome}/${biome}_tile_256_02.png`
         else tile.backgroundImageSource = `/images/background_tiles/${biome}/${biome}_tile_256_01.png`
 
+        if (!tile.blocked) nonRoadNonBlockedTiles.push({ x, y })
+
         tiles[y][x] = tile
       }
     })
   })
 
+  const monstersGroups = []
+
+  for (let i = 0; i < mapLevel % 4; i++) {
+    const position = randomPop(nonRoadNonBlockedTiles)
+
+    monstersGroups.push(generateMonstersGroup(mapLevel, position))
+  }
+
   return {
     entries,
+    position,
     tiles,
     biome,
+    monstersGroups,
   }
 }
 

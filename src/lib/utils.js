@@ -9,3 +9,7 @@ export function randomRange(min, max) {
 export function randomArray(array) {
   return array[Math.floor(Math.random() * array.length)]
 }
+
+export function randomPop(array) {
+  return array.splice(Math.floor(Math.random() * array.length), 1)[0]
+}

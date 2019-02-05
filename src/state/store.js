@@ -1,4 +1,4 @@
-import { combineReducers, applyMiddleware, createStore } from 'redux'
+import { combineReducers, applyMiddleware, compose, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
 
@@ -34,8 +34,15 @@ function logger() {
 
 const sagaMiddleware = createSagaMiddleware()
 
-const store = createStore(reducer, applyMiddleware(sagaMiddleware, logger))
+const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+  : compose
 
+const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware, logger))
+
+const store = createStore(reducer, enhancer)
+
+window.store = store
 sagaMiddleware.run(rootSaga)
 
 export default store

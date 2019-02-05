@@ -1,20 +1,17 @@
 import store from '../state/store'
 import generateWorldMap from './generateWorldMap'
 import gameConfiguration from './gameConfiguration'
-import randomMonsterName from './monsterNames'
-import randomMonsterAvatarSource from './monsterAvatars'
+import randomMonsterName from './monsters/monsterNames'
+import randomMonsterAvatarSource from './monsters/monsterAvatars'
 import { randomArray } from './utils'
 
 function createNewGame() {
   // Generate and dispatch first map
-  const firstWorldMap = generateWorldMap()
+  const firstWorldMap = generateWorldMap({ x: 0, y: 0 })
 
   store.dispatch({
     type: 'CREATE_MAP',
-    payload: {
-      ...firstWorldMap,
-      position: { x: 0, y: 0 },
-    },
+    payload: firstWorldMap,
   })
 
   // Place the hero on a road at random

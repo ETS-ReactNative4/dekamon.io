@@ -28,6 +28,7 @@
     "no-return-assign": "off",
     "no-shadow": "off",
     "no-trailing-spaces": "off",
+    "no-underscore-dangle": "off",
     "no-unreachable": "warn",
     "no-use-before-define": "off",
     "operator-linebreak": "off",

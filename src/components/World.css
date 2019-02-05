@@ -2,5 +2,12 @@
   height: 100%;
 }
 
+.World-position {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-weight: bold;
+}
+
 .World-canvas {
 }
