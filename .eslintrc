@@ -30,6 +30,7 @@
     "no-trailing-spaces": "off",
     "no-unreachable": "warn",
     "no-use-before-define": "off",
+    "operator-linebreak": "off",
     "padded-blocks": "off",
     "semi": ["error", "never"],
     "import/no-cycle": "off",

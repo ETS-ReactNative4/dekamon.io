@@ -27,11 +27,14 @@ function registerCanvas(canvasElement) {
     const tile = currentMap.tiles[destination.y] && currentMap.tiles[destination.y][destination.x]
 
     if (tile && !tile.blocked && !heroIsAtDestination) {
+      const path = computeHeroPath(position, destination, currentMap)
+
       store.dispatch({
         type: 'SET_HERO_DESTINATION',
         payload: {
           destination,
-          path: computeHeroPath(position, destination, currentMap),
+          path,
+          nextPosition: path[0],
         },
       })
     }

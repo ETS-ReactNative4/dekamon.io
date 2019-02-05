@@ -33,24 +33,15 @@ class World extends React.Component {
   }
 
   render() {
-    const { currentMap, hero } = this.props
-    const heroIsOnARoad = currentMap.tiles[hero.position.y][hero.position.x].road
-
     return (
       <div ref={this.containerRef} className="World x5">
         <canvas
           ref={this.canvasRef}
-          className="World-canvas"
-          style={{ animation: heroIsOnARoad ? 'none' : 'World-border-pulsate 2s infinite' }}
+          className="World-canvas no-select"
         />
       </div>
     )
   }
 }
 
-const mapStateToProps = s => ({
-  currentMap: s.currentMap,
-  hero: s.hero,
-})
-
-export default connect(mapStateToProps)(World)
+export default connect()(World)

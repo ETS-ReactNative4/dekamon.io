@@ -3,11 +3,4 @@
 }
 
 .World-canvas {
-  border: 10px solid white;
-}
-
-@keyframes World-border-pulsate {
-  0% { border-color: rgba(234, 18, 54, 0); }
-  50% { border-color: rgba(234, 18, 54, 1); }
-  100% { border-color: rgba(234, 18, 54, 0); }
 }
