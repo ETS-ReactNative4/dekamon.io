@@ -1,4 +1,4 @@
-import { randomArray } from './utils'
+import { randomArray } from '../utils'
 
 const adjectives = [
   'abandoned',

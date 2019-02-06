@@ -13,7 +13,7 @@ function computeDistance(p1, p2) {
 function generateWorldMap(entries = {}, position) {
   // Pick biome at random
   // TODO: pick biomes from surronding maps and mapLevel
-  const mapLevel = Math.abs(position.x) + Math.abs(position.y)
+  const mapLevel = Math.abs(position.x) + Math.abs(position.y) + 1
   const biome = randomArray(gameConfiguration.availableBiomes)
 
   // Create empty tiles
@@ -294,6 +294,7 @@ function generateWorldMap(entries = {}, position) {
     })
   })
 
+  // Create monsters groups
   const monstersGroups = []
 
   for (let i = 0; i < mapLevel % 4; i++) {

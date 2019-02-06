@@ -33,12 +33,14 @@ class World extends React.Component {
   }
 
   render() {
-    const { position } = this.props
+    const { currentMap } = this.props
 
     return (
       <div ref={this.containerRef} className="World relative x5">
         <div className="World-position">
-          {position.x} {position.y}
+          {currentMap.position.x} {currentMap.position.y}
+          <br />
+          {JSON.stringify(currentMap.monstersGroups.map(mg => `${mg.position.x} ${mg.position.y}`))}
         </div>
         <canvas
           ref={this.canvasRef}
@@ -50,7 +52,7 @@ class World extends React.Component {
 }
 
 const mapStateToProps = s => ({
-  position: s.currentMap.position,
+  currentMap: s.currentMap,
 })
 
 export default connect(mapStateToProps)(World)

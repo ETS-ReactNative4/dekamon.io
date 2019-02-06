@@ -71,10 +71,7 @@ function* updateWorldMap() {
 
       yield put({
         type: 'CREATE_MAP',
-        payload: {
-          position: { x, y },
-          ...generateWorldMap(entries),
-        },
+        payload: generateWorldMap(entries, { x, y }),
       })
     }
   }

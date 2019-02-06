@@ -7,7 +7,7 @@ import { randomArray } from './utils'
 
 function createNewGame() {
   // Generate and dispatch first map
-  const firstWorldMap = generateWorldMap({ x: 0, y: 0 })
+  const firstWorldMap = generateWorldMap({}, { x: 0, y: 0 })
 
   store.dispatch({
     type: 'CREATE_MAP',

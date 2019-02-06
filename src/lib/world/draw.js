@@ -29,6 +29,10 @@ function draw(_) {
     })
   })
 
+  currentMap.monstersGroups.forEach(monstersGroup => {
+    imageSourcesToLoad.push(monstersGroup.monsters[0].avatarSource)
+  })
+
   return loadImages(imageSourcesToLoad)
   .then(images => {
 
@@ -71,6 +75,19 @@ function draw(_) {
 
         _.restore()
       }
+
+      currentMap.monstersGroups
+      .filter(monstersGroup => monstersGroup.position.y === j)
+      .forEach(monstersGroup => {
+
+        _.drawImage(
+          images[monstersGroup.monsters[0].avatarSource],
+          tileSize * (monstersGroup.position.x),
+          tileSize * (monstersGroup.position.y),
+          tileSize,
+          tileSize
+        )
+      })
     })
 
   })

@@ -42,7 +42,9 @@ const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware, logger))
 
 const store = createStore(reducer, enhancer)
 
-window.store = store
 sagaMiddleware.run(rootSaga)
+
+// For debug purposes
+window.store = store
 
 export default store

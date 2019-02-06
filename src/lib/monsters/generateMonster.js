@@ -1,6 +1,6 @@
 import randomMonsterName from './monsterNames'
 import randomMonsterAvatarSource from './monsterAvatars'
-import randomRange from '../utils'
+import { randomRange } from '../utils'
 
 function generateMonster(level) {
   return {
