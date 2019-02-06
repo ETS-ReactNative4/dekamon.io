@@ -1,20 +1,20 @@
-import computeHeroPath from '../computeHeroPath'
+import generateHeroPath from './generateHeroPath'
 import draw from './draw'
 import store from '../../state/store'
 
 // A function called once for registering the canvas event listeners
-function registerCanvas(canvasElement) {
-  const _ = canvasElement.getContext('2d')
+function registerCanvas(canvas) {
+  const _ = canvas.getContext('2d')
 
   // For debug purposes
-  window.canvas = canvasElement
-  window._ = _
+  // window.canvas = canvas
+  // window._ = _
 
-  canvasElement.addEventListener('click', e => {
+  canvas.addEventListener('click', e => {
     const { tileSize, currentMap, hero: { position } } = store.getState()
-    const rect = canvasElement.getBoundingClientRect()
+    const rect = canvas.getBoundingClientRect()
 
-    const borderWidth = window.getComputedStyle(canvasElement).getPropertyValue('border-width') // 10px
+    const borderWidth = window.getComputedStyle(canvas).getPropertyValue('border-width') // 10px
     const borderWidthInPixed = parseInt(borderWidth.slice(0, borderWidth.length - 2), 10) // Remove "px"
 
     const destination = {
@@ -27,7 +27,7 @@ function registerCanvas(canvasElement) {
     const tile = currentMap.tiles[destination.y] && currentMap.tiles[destination.y][destination.x]
 
     if (tile && !tile.blocked && !heroIsAtDestination) {
-      const path = computeHeroPath(position, destination, currentMap)
+      const path = generateHeroPath(position, destination, currentMap)
 
       store.dispatch({
         type: 'SET_HERO_DESTINATION',
@@ -38,8 +38,11 @@ function registerCanvas(canvasElement) {
         },
       })
     }
-
   })
+
+  // canvas.addEventListener('mousemove', e => {
+  //   console.log(e)
+  // })
 
   let requestId
 

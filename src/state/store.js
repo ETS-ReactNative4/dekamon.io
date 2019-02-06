@@ -5,7 +5,7 @@ import { all } from 'redux-saga/effects'
 import currentMap from './reducers/currentMap'
 import hero from './reducers/hero'
 import maps from './reducers/maps'
-import programons from './reducers/programons'
+import monstersInventory from './reducers/monstersInventory'
 import tileSize from './reducers/tileSize'
 
 import heroSaga from './sagas/hero'
@@ -14,7 +14,7 @@ const reducer = combineReducers({
   currentMap,
   hero,
   maps,
-  programons,
+  monstersInventory,
   tileSize,
 })
 

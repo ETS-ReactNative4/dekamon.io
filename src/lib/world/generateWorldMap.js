@@ -1,7 +1,7 @@
-import { chance, randomRange, randomArray, randomPop } from './utils'
-import { biomeToItemProbabilities, items } from './world/items'
-import generateMonstersGroup from './monsters/generateMonstersGroup'
-import gameConfiguration from './gameConfiguration'
+import { chance, randomRange, randomArray, randomPop } from '../utils'
+import { biomeToItemProbabilities, items } from './items'
+import generateMonstersGroup from '../monsters/generateMonstersGroup'
+import gameConfiguration from '../gameConfiguration'
 
 const width = gameConfiguration.worldWidth
 const height = gameConfiguration.worldHeight

@@ -1,5 +1,5 @@
-import gameConfiguration from './gameConfiguration'
-import { randomArray } from './utils'
+import gameConfiguration from '../gameConfiguration'
+import { randomArray } from '../utils'
 
 const memory = {}
 
@@ -15,16 +15,17 @@ const hash = position => {
 // Retrieve a position from a hash string
 const unhash = hash => memory[hash]
 
-// Mouvement cost (g function)
-const nonRoadWeight = gameConfiguration.worldWidth + gameConfiguration.worldHeight
-const getTileWeight = tile => tile.blocked ? Infinity : tile.road ? 1 : nonRoadWeight
-
 // Mahattan heuristic (h function)
 const manhattanHeuristic = (p1, p2) => Math.abs(p2.x - p1.x) + Math.abs(p2.y - p1.y)
 
 // A* Search
 // http://theory.stanford.edu/~amitp/GameProgramming/ImplementationNotes.html
 function computeHeroPath(startPosition, goalPosition, mapDefinition) {
+
+  // Mouvement cost (g function)
+  const nonRoadWeight = gameConfiguration.worldWidth + gameConfiguration.worldHeight
+  const tileHasMonstersGroup = (x, y) => mapDefinition.monstersGroups.some(group => group.position.x === x && group.position.y === y)
+  const getTileWeight = (tile, x, y) => tile.blocked || tileHasMonstersGroup(x, y) ? Infinity : tile.road ? 1 : nonRoadWeight
 
   const startPositionHash = hash(startPosition)
   const goalPositionHash = hash(goalPosition)
@@ -82,7 +83,7 @@ function computeHeroPath(startPosition, goalPosition, mapDefinition) {
       const neighborHash = hash(neighborPosition)
 
       // cost = g(current) + movementcost(current, neighbor)
-      const cost = hashToCost[currentPositionHash] + getTileWeight(mapDefinition.tiles[neighborPosition.y][neighborPosition.x])
+      const cost = hashToCost[currentPositionHash] + getTileWeight(mapDefinition.tiles[neighborPosition.y][neighborPosition.x], neighborPosition.x, neighborPosition.y)
 
       const neighborIndexInOpen = open.indexOf(neighborHash)
       const neighborIndexInClosed = closed.indexOf(neighborHash)

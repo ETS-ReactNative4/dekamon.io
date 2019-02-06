@@ -8,12 +8,12 @@ class Inventory extends React.Component {
     super(props)
 
     this.state = {
-      selectedProgramon: props.programons[0],
+      selectedProgramon: props.monsters[0],
     }
   }
 
   render() {
-    const { programons, close } = this.props
+    const { monsters, close } = this.props
     const { selectedProgramon } = this.state
 
     return (
@@ -22,19 +22,19 @@ class Inventory extends React.Component {
           ×
         </div>
         <div className="Inventory-programon y8s">
-          <div className="Inventory-programon-programons x8s">
-            {programons.map(programon => (
+          <div className="Inventory-programon-monsters x8s">
+            {monsters.map(programon => (
               <div
                 key={programon.name}
                 onClick={() => this.setState({ selectedProgramon: programon })}
-                className={`Inventory-programon-programons-item ${selectedProgramon === programon ? 'Inventory-programon-programons-item_selected' : ''} y8 no-select`}
+                className={`Inventory-programon-monsters-item ${selectedProgramon === programon ? 'Inventory-programon-monsters-item_selected' : ''} y8 no-select`}
               >
                 <img
-                  className="Inventory-programon-programons-item-avatar"
+                  className="Inventory-programon-monsters-item-avatar"
                   src={programon.avatarSource}
                   alt=""
                 />
-                <div className="Inventory-programon-programons-item-name">
+                <div className="Inventory-programon-monsters-item-name">
                   {programon.name}
                 </div>
               </div>
@@ -53,7 +53,7 @@ class Inventory extends React.Component {
 }
 
 const mapsStateToProps = s => ({
-  programons: s.programons,
+  monsters: s.monsters,
 })
 
 export default connect(mapsStateToProps)(Inventory)

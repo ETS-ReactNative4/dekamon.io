@@ -1,6 +1,6 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import gameConfiguration from '../../lib/gameConfiguration'
-import generateWorldMap from '../../lib/generateWorldMap'
+import generateWorldMap from '../../lib/world/generateWorldMap'
 import store from '../store'
 
 function* updateWorldMap() {
@@ -83,12 +83,17 @@ let interval
 // Move hero
 function updateHeroPosition() {
   const {
-    position,
-    canvasOffset,
-    nextPosition,
-    destination,
-    path,
-  } = store.getState().hero
+    hero: {
+      position,
+      canvasOffset,
+      nextPosition,
+      destination,
+      path,
+    },
+    currentMap: {
+      monstersGroups,
+    },
+  } = store.getState()
 
   clearInterval(interval)
 
@@ -141,6 +146,15 @@ function updateHeroPosition() {
 
   // If hero is not at destination we walk the path
   if (!heroIsAtDestination) {
+    const blockingMonstersGroup = monstersGroups.find(group => group.position.x === path[0].x && group.position.y === path[0].y)
+
+    if (blockingMonstersGroup) {
+      return store.dispatch({
+        type: 'ENGAGE_BATTLE',
+        payload: blockingMonstersGroup,
+      })
+    }
+    
     const diffX = path[0].x - position.x
     const diffY = path[0].y - position.y
 
