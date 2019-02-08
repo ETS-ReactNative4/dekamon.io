@@ -2,20 +2,22 @@ import { combineReducers, applyMiddleware, compose, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
 
-import currentMap from './reducers/currentMap'
+import battle from './reducers/battle'
+import worldMap from './reducers/worldMap'
 import hero from './reducers/hero'
-import maps from './reducers/maps'
+import worldMaps from './reducers/worldMaps'
 import monstersInventory from './reducers/monstersInventory'
-import tileSize from './reducers/tileSize'
+import worldTileSize from './reducers/worldTileSize'
 
 import heroSaga from './sagas/hero'
 
 const reducer = combineReducers({
-  currentMap,
+  battle,
+  worldMap,
   hero,
-  maps,
+  worldMaps,
   monstersInventory,
-  tileSize,
+  worldTileSize,
 })
 
 function* rootSaga() {

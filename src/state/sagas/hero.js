@@ -1,38 +1,38 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import gameConfiguration from '../../lib/gameConfiguration'
-import generateWorldMap from '../../lib/world/generateWorldMap'
+import generateWorldMaps from '../../lib/world/generateWorldMaps'
 import store from '../store'
 
-function* updateWorldMap() {
-  const { hero, currentMap, maps } = store.getState()
+function* updateWorldMaps() {
+  const { hero, worldMap, worldMaps } = store.getState()
 
   if (hero.position.x !== hero.destination.x || hero.position.y !== hero.destination.y) return
 
-  let { x, y } = currentMap.position
+  let { x, y } = worldMap.position
   let nextHeroPosition
 
-  if (currentMap.entries.north && hero.position.x === currentMap.entries.north && hero.position.y === 0) {
+  if (worldMap.entries.north && hero.position.x === worldMap.entries.north && hero.position.y === 0) {
     y--
     nextHeroPosition = {
       x: hero.position.x,
       y: gameConfiguration.worldHeight - 1,
     }
   }
-  if (currentMap.entries.south && hero.position.x === currentMap.entries.south && hero.position.y === gameConfiguration.worldHeight - 1) {
+  if (worldMap.entries.south && hero.position.x === worldMap.entries.south && hero.position.y === gameConfiguration.worldHeight - 1) {
     y++
     nextHeroPosition = {
       x: hero.position.x,
       y: 0,
     }
   }
-  if (currentMap.entries.west && hero.position.y === currentMap.entries.west && hero.position.x === 0) {
+  if (worldMap.entries.west && hero.position.y === worldMap.entries.west && hero.position.x === 0) {
     x--
     nextHeroPosition = {
       x: gameConfiguration.worldWidth - 1,
       y: hero.position.y,
     }
   }
-  if (currentMap.entries.east && hero.position.y === currentMap.entries.east && hero.position.x === gameConfiguration.worldWidth - 1) {
+  if (worldMap.entries.east && hero.position.y === worldMap.entries.east && hero.position.x === gameConfiguration.worldWidth - 1) {
     x++
     nextHeroPosition = {
       x: 0,
@@ -49,7 +49,7 @@ function* updateWorldMap() {
       },
     })
 
-    const nextMap = maps.find(map => map.position.x === x && map.position.y === y)
+    const nextMap = worldMaps.find(map => map.position.x === x && map.position.y === y)
 
     if (nextMap) {
       yield put({ type: 'SET_CURRENT_MAP', payload: nextMap })
@@ -57,10 +57,10 @@ function* updateWorldMap() {
     else {
       const entries = {}
 
-      const northMap = maps.find(map => map.position.x === x && map.position.y === y - 1)
-      const southMap = maps.find(map => map.position.x === x && map.position.y === y + 1)
-      const westMap = maps.find(map => map.position.x === x - 1 && map.position.y === y)
-      const eastMap = maps.find(map => map.position.x === x + 1 && map.position.y === y)
+      const northMap = worldMaps.find(map => map.position.x === x && map.position.y === y - 1)
+      const southMap = worldMaps.find(map => map.position.x === x && map.position.y === y + 1)
+      const westMap = worldMaps.find(map => map.position.x === x - 1 && map.position.y === y)
+      const eastMap = worldMaps.find(map => map.position.x === x + 1 && map.position.y === y)
 
       if (northMap) entries.north = northMap.entries.south || null
       if (southMap) entries.south = southMap.entries.north || null
@@ -71,7 +71,7 @@ function* updateWorldMap() {
 
       yield put({
         type: 'CREATE_MAP',
-        payload: generateWorldMap(entries, { x, y }),
+        payload: generateWorldMaps(entries, { x, y }),
       })
     }
   }
@@ -90,7 +90,7 @@ function updateHeroPosition() {
       destination,
       path,
     },
-    currentMap: {
+    worldMap: {
       monstersGroups,
     },
   } = store.getState()
@@ -187,7 +187,7 @@ function updateHeroPosition() {
 }
 
 function* heroSaga() {
-  yield takeEvery('POP_HERO_POSITION', updateWorldMap)
+  yield takeEvery('POP_HERO_POSITION', updateWorldMaps)
   yield takeEvery('SET_HERO_DESTINATION', updateHeroPosition)
   yield takeEvery('POP_HERO_POSITION', updateHeroPosition)
   yield takeEvery('UPDATE_HERO_POSITION', updateHeroPosition)

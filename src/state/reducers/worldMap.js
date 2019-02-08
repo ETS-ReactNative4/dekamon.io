@@ -1,4 +1,4 @@
-function currentMap(state = [], action) {
+function worldMap(state = [], action) {
   switch (action.type) {
   case 'SET_CURRENT_MAP':
   case 'CREATE_MAP':
@@ -9,4 +9,4 @@ function currentMap(state = [], action) {
   }
 }
 
-export default currentMap
+export default worldMap

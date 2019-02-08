@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './App.css'
 
 import World from './World'
-import WorldMap from './WorldMap'
+import Battle from './Battle'
+import WorldMaps from './WorldMaps'
 import Inventory from './Inventory'
 
 class App extends Component {
@@ -21,6 +23,7 @@ class App extends Component {
   }
 
   render() {
+    const { battle } = this.props
     const { mode } = this.state
 
     return (
@@ -28,7 +31,9 @@ class App extends Component {
 
         <div className="App-content">
 
-          <World />
+          {!battle && <World />}
+
+          {!!battle && <Battle />}
 
           {!!mode && (
             <div
@@ -38,7 +43,7 @@ class App extends Component {
             >
 
               {mode === 'world-map' && (
-                <WorldMap close={this.closeMode} />
+                <WorldMaps close={this.closeMode} />
               )}
 
               {mode === 'inventory' && (
@@ -63,4 +68,8 @@ class App extends Component {
   }
 }
 
-export default App
+const mapStateToProps = s => ({
+  battle: s.battle,
+})
+
+export default connect(mapStateToProps)(App)

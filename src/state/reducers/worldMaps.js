@@ -1,4 +1,4 @@
-function maps(state = [], action) {
+function worldMaps(state = [], action) {
 
   switch (action.type) {
 
@@ -10,4 +10,4 @@ function maps(state = [], action) {
   }
 }
 
-export default maps
+export default worldMaps

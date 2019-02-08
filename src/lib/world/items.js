@@ -30,65 +30,65 @@ const normalTree = {
       },
     }
   },
-  draw(_, images, tileSize, x, y, parameters) {
+  draw(_, images, worldTileSize, x, y, parameters) {
     if (parameters.size === 1) {
-      const shadowWidth = tileSize * 1.4
-      const trunkWidth = tileSize * 0.7
-      const leavesWidth = tileSize * 1.2
+      const shadowWidth = worldTileSize * 1.4
+      const trunkWidth = worldTileSize * 0.7
+      const leavesWidth = worldTileSize * 1.2
       const trunkHeight = trunkWidth * images[parameters.trunkSource].height / images[parameters.trunkSource].width
       const leavesHeight = leavesWidth * images[parameters.leavesSource].height / images[parameters.leavesSource].width
 
       _.globalAlpha = 0.5
       _.drawImage(
         images[parameters.shadowSource],
-        (x - 0.2) * tileSize,
-        (y + 0.25) * tileSize,
+        (x - 0.2) * worldTileSize,
+        (y + 0.25) * worldTileSize,
         shadowWidth,
         shadowWidth * images[parameters.shadowSource].height / images[parameters.shadowSource].width
       )
       _.globalAlpha = 1
       _.drawImage(
         images[parameters.trunkSource],
-        (x + 0.15) * tileSize,
-        (y + 0.8) * tileSize - trunkHeight,
+        (x + 0.15) * worldTileSize,
+        (y + 0.8) * worldTileSize - trunkHeight,
         trunkWidth,
         trunkHeight
       )
       _.drawImage(
         images[parameters.leavesSource],
-        (x - 0.1) * tileSize,
-        (y + 0.25) * tileSize - leavesHeight,
+        (x - 0.1) * worldTileSize,
+        (y + 0.25) * worldTileSize - leavesHeight,
         leavesWidth,
         leavesHeight
       )
     }
     if (parameters.size === 2) {
-      const shadowWidth = tileSize * 1.5
-      const trunkWidth = tileSize * 0.8
-      const leavesWidth = tileSize * 1.4
+      const shadowWidth = worldTileSize * 1.5
+      const trunkWidth = worldTileSize * 0.8
+      const leavesWidth = worldTileSize * 1.4
       const trunkHeight = trunkWidth * images[parameters.trunkSource].height / images[parameters.trunkSource].width
       const leavesHeight = leavesWidth * images[parameters.leavesSource].height / images[parameters.leavesSource].width
 
       _.globalAlpha = 0.5
       _.drawImage(
         images[parameters.shadowSource],
-        (x - 0.25) * tileSize,
-        (y + 0.15) * tileSize,
+        (x - 0.25) * worldTileSize,
+        (y + 0.15) * worldTileSize,
         shadowWidth,
         shadowWidth * images[parameters.shadowSource].height / images[parameters.shadowSource].width
       )
       _.globalAlpha = 1
       _.drawImage(
         images[parameters.trunkSource],
-        (x + 0.1) * tileSize,
-        (y + 0.8) * tileSize - trunkHeight,
+        (x + 0.1) * worldTileSize,
+        (y + 0.8) * worldTileSize - trunkHeight,
         trunkWidth,
         trunkHeight
       )
       _.drawImage(
         images[parameters.leavesSource],
-        (x - 0.2) * tileSize,
-        (y + 0.1) * tileSize - leavesHeight,
+        (x - 0.2) * worldTileSize,
+        (y + 0.1) * worldTileSize - leavesHeight,
         leavesWidth,
         leavesHeight
       )
@@ -121,24 +121,24 @@ const rock = {
       },
     }
   },
-  draw(_, images, tileSize, x, y, parameters) {
-    const shadowWidth = tileSize * 1.2
-    const rockWidth = tileSize * 0.8
+  draw(_, images, worldTileSize, x, y, parameters) {
+    const shadowWidth = worldTileSize * 1.2
+    const rockWidth = worldTileSize * 0.8
     const rockHeight = rockWidth * images[parameters.rockSource].height / images[parameters.rockSource].width
 
     _.globalAlpha = 0.5
     _.drawImage(
       images[parameters.shadowSource],
-      (x - 0.1) * tileSize,
-      (y + 0.35) * tileSize,
+      (x - 0.1) * worldTileSize,
+      (y + 0.35) * worldTileSize,
       shadowWidth,
       shadowWidth * images[parameters.shadowSource].height / images[parameters.shadowSource].width
     )
     _.globalAlpha = 1
     _.drawImage(
       images[parameters.rockSource],
-      (x + 0.1) * tileSize,
-      (y + 0.9) * tileSize - rockHeight,
+      (x + 0.1) * worldTileSize,
+      (y + 0.9) * worldTileSize - rockHeight,
       rockWidth,
       rockHeight
     )

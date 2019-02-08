@@ -1,7 +1,7 @@
-import { chance, randomRange, randomArray, randomPop } from '../utils'
-import { biomeToItemProbabilities, items } from './items'
-import generateMonstersGroup from '../monsters/generateMonstersGroup'
 import gameConfiguration from '../gameConfiguration'
+import { chance, randomRange, randomArray, randomPop } from '../utils'
+import generateMonstersGroup from '../monsters/generateMonstersGroup'
+import { biomeToItemProbabilities, items } from './items'
 
 const width = gameConfiguration.worldWidth
 const height = gameConfiguration.worldHeight
@@ -10,9 +10,9 @@ function computeDistance(p1, p2) {
   return Math.abs(p1.x - p2.x) + Math.abs(p1.y - p2.y)
 }
 
-function generateWorldMap(entries = {}, position) {
+function generateWorldMaps(entries = {}, position) {
   // Pick biome at random
-  // TODO: pick biomes from surronding maps and mapLevel
+  // TODO: pick biomes from surronding worldMaps and mapLevel
   const mapLevel = Math.abs(position.x) + Math.abs(position.y) + 1
   const biome = randomArray(gameConfiguration.availableBiomes)
 
@@ -312,4 +312,4 @@ function generateWorldMap(entries = {}, position) {
   }
 }
 
-export default generateWorldMap
+export default generateWorldMaps

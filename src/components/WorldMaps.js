@@ -4,12 +4,12 @@ import gameConfiguration from '../lib/gameConfiguration'
 
 const cellSize = 5
 
-class WorldMap extends React.Component {
+class WorldMaps extends React.Component {
 
   renderMapSection(x, y) {
-    const { maps } = this.props
+    const { worldMaps } = this.props
 
-    const map = maps.find(map => map.position.x === x && map.position.y === y)
+    const map = worldMaps.find(map => map.position.x === x && map.position.y === y)
 
     const divStyle = {
       borderBottom: '1px solid lightgrey',
@@ -45,7 +45,7 @@ class WorldMap extends React.Component {
   }
 
   render() {
-    const { currentMap, close } = this.props
+    const { worldMap, close } = this.props
     const divs = []
 
     for (let j = 0; j < 5; j++) {
@@ -54,7 +54,7 @@ class WorldMap extends React.Component {
       for (let i = 0; i < 5; i++) {
         row.push(
           <div key={i}>
-            {this.renderMapSection(i - 2 + currentMap.position.x, j - 2 + currentMap.position.y)}
+            {this.renderMapSection(i - 2 + worldMap.position.x, j - 2 + worldMap.position.y)}
           </div>
         )
       }
@@ -99,8 +99,8 @@ class WorldMap extends React.Component {
 }
 
 const mapStateToProps = s => ({
-  maps: s.maps,
-  currentMap: s.currentMap,
+  worldMaps: s.worldMaps,
+  worldMap: s.worldMap,
 })
 
-export default connect(mapStateToProps)(WorldMap)
+export default connect(mapStateToProps)(WorldMaps)

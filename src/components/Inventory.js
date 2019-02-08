@@ -52,8 +52,8 @@ class Inventory extends React.Component {
   }
 }
 
-const mapsStateToProps = s => ({
+const mapStateToProps = s => ({
   monsters: s.monsters,
 })
 
-export default connect(mapsStateToProps)(Inventory)
+export default connect(mapStateToProps)(Inventory)

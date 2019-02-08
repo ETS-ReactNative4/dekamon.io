@@ -15,32 +15,36 @@ class World extends React.Component {
 
     this.updateTileSize()
 
-    registerCanvas(this.canvasRef.current)
+    this.unregisterCanvas = registerCanvas(this.canvasRef.current)
+  }
+
+  componentWillUnmount() {
+    this.unregisterCanvas()
   }
 
   updateTileSize = () => {
     const { dispatch } = this.props
     const { clientWidth, clientHeight } = this.containerRef.current
 
-    const tileSize1 = clientWidth / gameConfiguration.worldWidth
-    const tileSize2 = clientHeight / gameConfiguration.worldHeight
-    const tileSize = Math.min(tileSize1, tileSize2)
+    const worldTileSize1 = clientWidth / gameConfiguration.worldWidth
+    const worldTileSize2 = clientHeight / gameConfiguration.worldHeight
+    const worldTileSize = Math.min(worldTileSize1, worldTileSize2)
 
     dispatch({
-      type: 'SET_TILESIZE',
-      payload: tileSize,
+      type: 'SET_WORLD_TILESIZE',
+      payload: worldTileSize,
     })
   }
 
   render() {
-    const { currentMap } = this.props
+    const { worldMap } = this.props
 
     return (
       <div ref={this.containerRef} className="World relative x5">
         <div className="World-position">
-          {currentMap.position.x} {currentMap.position.y}
+          {worldMap.position.x} {worldMap.position.y}
           <br />
-          {JSON.stringify(currentMap.monstersGroups.map(mg => `${mg.position.x} ${mg.position.y}`))}
+          {JSON.stringify(worldMap.monstersGroups.map(mg => `${mg.position.x} ${mg.position.y}`))}
         </div>
         <canvas
           ref={this.canvasRef}
@@ -52,7 +56,7 @@ class World extends React.Component {
 }
 
 const mapStateToProps = s => ({
-  currentMap: s.currentMap,
+  worldMap: s.worldMap,
 })
 
 export default connect(mapStateToProps)(World)

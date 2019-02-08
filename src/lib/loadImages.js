@@ -1,13 +1,13 @@
-const sourceToImage = {}
+const sourceToImageCache = {}
 
 // weak
 function loadImages(sources) {
-  const images = {}
+  const sourceToImage = {}
   const promises = []
 
   sources.forEach(source => {
-    if (sourceToImage[source]) {
-      images[source] = sourceToImage[source]
+    if (sourceToImageCache[source]) {
+      sourceToImage[source] = sourceToImageCache[source]
     }
     else if (!promises[source]) {
       promises.push(new Promise((resolve, reject) => {
@@ -16,13 +16,13 @@ function loadImages(sources) {
         image.src = source
         image.onload = resolve
         image.onerror = reject
-        images[source] = image
         sourceToImage[source] = image
+        sourceToImageCache[source] = image
       }))
     }
   })
 
-  return Promise.all(promises).then(() => images)
+  return Promise.all(promises).then(() => sourceToImage)
 }
 
 export default loadImages

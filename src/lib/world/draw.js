@@ -1,27 +1,27 @@
-import loadImages from './loadImages'
-import { items } from './items'
-import gameConfiguration from '../gameConfiguration'
 import store from '../../state/store'
+import gameConfiguration from '../gameConfiguration'
+import loadImages from '../loadImages'
+import { items } from './items'
 
 let heroIsLookingLeft = false
 const heroImage1Source = '/images/hero_1.png'
 const heroImage2Source = '/images/hero_2.png'
 
 function draw(_) {
-  const { tileSize, currentMap, hero: { position, destination, nextPosition, canvasOffset } } = store.getState()
+  const { worldTileSize, worldMap, hero: { position, destination, nextPosition, canvasOffset } } = store.getState()
 
-  _.canvas.width = tileSize * gameConfiguration.worldWidth
-  _.canvas.height = tileSize * gameConfiguration.worldHeight
+  _.canvas.width = worldTileSize * gameConfiguration.worldWidth
+  _.canvas.height = worldTileSize * gameConfiguration.worldHeight
 
-  _.clearRect(0, 0, tileSize * gameConfiguration.worldWidth, tileSize * gameConfiguration.worldHeight)
-
+  _.clearRect(0, 0, _.canvas.width, _.canvas.height)
+  
   const imageSourcesToLoad = [
     heroImage1Source,
     heroImage2Source,
   ]
 
   // Set images to load
-  currentMap.tiles.forEach(row => {
+  worldMap.tiles.forEach(row => {
     row.forEach(tile => {
       imageSourcesToLoad.push(tile.backgroundImageSource)
 
@@ -29,7 +29,7 @@ function draw(_) {
     })
   })
 
-  currentMap.monstersGroups.forEach(monstersGroup => {
+  worldMap.monstersGroups.forEach(monstersGroup => {
     imageSourcesToLoad.push(monstersGroup.monsters[0].avatarSource)
   })
 
@@ -37,17 +37,17 @@ function draw(_) {
   .then(images => {
 
     // Draw background
-    currentMap.tiles.forEach((row, j) => {
+    worldMap.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
-        _.drawImage(images[tile.backgroundImageSource], i * tileSize, j * tileSize, tileSize, tileSize)
-        // _.strokeRect(i * tileSize, j * tileSize, tileSize, tileSize)
+        _.drawImage(images[tile.backgroundImageSource], i * worldTileSize, j * worldTileSize, worldTileSize, worldTileSize)
+        // _.strokeRect(i * worldTileSize, j * worldTileSize, worldTileSize, worldTileSize)
       })
     })
 
     // Draw items
-    currentMap.tiles.forEach((row, j) => {
+    worldMap.tiles.forEach((row, j) => {
       row.forEach((tile, i) => {
-        if (tile.item) items[tile.item.name].draw(_, images, tileSize, i, j, tile.item.parameters)
+        if (tile.item) items[tile.item.name].draw(_, images, worldTileSize, i, j, tile.item.parameters)
       })
 
       // Draw hero at correct position
@@ -67,25 +67,25 @@ function draw(_) {
 
         _.drawImage(
           heroImage,
-          heroIsLookingLeft ? tileSize * (position.x + canvasOffset.x + 0.15) : -tileSize * (position.x + canvasOffset.x + 0.85),
-          tileSize * (position.y + canvasOffset.y - 0.2),
-          tileSize * 0.6,
-          tileSize * heroImage.height / heroImage.width * 0.6
+          heroIsLookingLeft ? worldTileSize * (position.x + canvasOffset.x + 0.15) : -worldTileSize * (position.x + canvasOffset.x + 0.85),
+          worldTileSize * (position.y + canvasOffset.y - 0.2),
+          worldTileSize * 0.6,
+          worldTileSize * heroImage.height / heroImage.width * 0.6
         )
 
         _.restore()
       }
 
-      currentMap.monstersGroups
+      worldMap.monstersGroups
       .filter(monstersGroup => monstersGroup.position.y === j)
       .forEach(monstersGroup => {
 
         _.drawImage(
           images[monstersGroup.monsters[0].avatarSource],
-          tileSize * (monstersGroup.position.x),
-          tileSize * (monstersGroup.position.y),
-          tileSize,
-          tileSize
+          worldTileSize * (monstersGroup.position.x),
+          worldTileSize * (monstersGroup.position.y),
+          worldTileSize,
+          worldTileSize
         )
       })
     })
