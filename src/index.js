@@ -9,7 +9,9 @@ import './index.css'
 import './normalize.css'
 import 'flexpad/dist/flexpad.min.css'
 
-createNewGame()
+if (!store.getState().worldMap) {
+  createNewGame()
+}
 
 ReactDOM.render(
   <Provider store={store}>

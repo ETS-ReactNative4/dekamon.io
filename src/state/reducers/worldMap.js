@@ -1,4 +1,4 @@
-function worldMap(state = [], action) {
+function worldMap(state = null, action) {
   switch (action.type) {
   case 'SET_CURRENT_MAP':
   case 'CREATE_MAP':

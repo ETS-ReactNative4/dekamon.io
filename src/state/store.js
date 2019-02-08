@@ -1,6 +1,9 @@
 import { combineReducers, applyMiddleware, compose, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { all } from 'redux-saga/effects'
+import throttle from 'lodash.throttle'
+
+import { loadState, saveState } from './persist'
 
 import battle from './reducers/battle'
 import battleTileSize from './reducers/battleTileSize'
@@ -45,10 +48,14 @@ const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_E
   : compose
 
 const enhancer = composeEnhancers(applyMiddleware(sagaMiddleware, logger))
+const persistedState = loadState()
 
-const store = createStore(reducer, enhancer)
+const store = createStore(reducer, persistedState, enhancer)
 
 sagaMiddleware.run(rootSaga)
+
+// Save persisted state
+store.subscribe(throttle(() => saveState(store.getState()), 1000))
 
 // For debug purposes
 window.store = store

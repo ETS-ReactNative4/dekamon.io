@@ -22,6 +22,11 @@ class App extends Component {
     }
   }
 
+  handleNewGameClick = () => {
+    localStorage.removeItem('state')
+    window.location.reload()
+  }
+
   render() {
     const { battle } = this.props
     const { mode } = this.state
@@ -60,6 +65,9 @@ class App extends Component {
           </button>
           <button type="button" onClick={() => this.setState({ mode: 'inventory' })}>
             Inventory
+          </button>
+          <button type="button" onClick={this.handleNewGameClick}>
+            New game
           </button>
         </div>
 
