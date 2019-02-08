@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import registerCanvas from '../lib/world/registerCanvas'
+import registerCanvas from '../lib/battle/registerCanvas'
 import gameConfiguration from '../lib/gameConfiguration'
 import './Battle.css'
 
@@ -11,6 +11,8 @@ class Battle extends React.Component {
   canvasRef = React.createRef()
 
   componentDidMount() {
+    console.log('mounting Battle')
+
     window.addEventListener('resize', this.updateTileSize)
 
     this.updateTileSize()
@@ -19,7 +21,11 @@ class Battle extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('unmounting Battle')
+
     this.unregisterCanvas()
+
+    window.removeEventListerner('resize', this.updateTileSize)
   }
 
   updateTileSize = () => {

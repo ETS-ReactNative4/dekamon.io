@@ -11,6 +11,8 @@ class World extends React.Component {
   canvasRef = React.createRef()
 
   componentDidMount() {
+    console.log('mounting World')
+
     window.addEventListener('resize', this.updateTileSize)
 
     this.updateTileSize()
@@ -19,7 +21,11 @@ class World extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('unmounting World')
+
     this.unregisterCanvas()
+
+    window.removeEventListener('resize', this.updateTileSize)
   }
 
   updateTileSize = () => {

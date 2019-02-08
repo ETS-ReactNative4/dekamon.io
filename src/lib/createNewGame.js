@@ -1,12 +1,12 @@
 import store from '../state/store'
-import generateWorldMaps from './world/generateWorldMaps'
+import generateWorldMap from './world/generateWorldMap'
 import generateMonster from './monsters/generateMonster'
 import gameConfiguration from './gameConfiguration'
 import { randomArray } from './utils'
 
 function createNewGame() {
   // Generate and dispatch first map
-  const firstWorldMaps = generateWorldMaps({}, { x: 0, y: 0 })
+  const firstWorldMaps = generateWorldMap({}, { x: 0, y: 0 })
 
   store.dispatch({
     type: 'CREATE_MAP',

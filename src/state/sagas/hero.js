@@ -1,6 +1,6 @@
 import { put, takeEvery } from 'redux-saga/effects'
 import gameConfiguration from '../../lib/gameConfiguration'
-import generateWorldMaps from '../../lib/world/generateWorldMaps'
+import generateWorldMap from '../../lib/world/generateWorldMap'
 import store from '../store'
 
 function* updateWorldMaps() {
@@ -71,7 +71,7 @@ function* updateWorldMaps() {
 
       yield put({
         type: 'CREATE_MAP',
-        payload: generateWorldMaps(entries, { x, y }),
+        payload: generateWorldMap(entries, { x, y }),
       })
     }
   }
@@ -150,11 +150,11 @@ function updateHeroPosition() {
 
     if (blockingMonstersGroup) {
       return store.dispatch({
-        type: 'ENGAGE_BATTLE',
-        payload: blockingMonstersGroup,
+        type: 'BEGIN_BATTLE',
+        payload: blockingMonstersGroup.monsters,
       })
     }
-    
+
     const diffX = path[0].x - position.x
     const diffY = path[0].y - position.y
 

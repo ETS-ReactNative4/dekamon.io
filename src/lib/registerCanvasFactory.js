@@ -22,10 +22,15 @@ function registerCanvasFactory(eventListeners, draw) {
       requestId = requestAnimationFrame(drawStep)
     }
 
+    console.log('drawing canvas')
+    
     requestId = requestAnimationFrame(drawStep)
 
     // Return unregisterCanvas
-    return () => cancelAnimationFrame(requestId)
+    return () => {
+      cancelAnimationFrame(requestId)
+      console.log('unregistering canvas')
+    }
   }
 }
 

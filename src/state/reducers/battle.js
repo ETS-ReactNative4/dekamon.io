@@ -1,12 +1,14 @@
 function battle(state = null, action) {
-  if (action.type === 'ENGAGE_BATTLE') {
-    return {
-      monstersGroup: action.payload,
-      turn: 1,
-    }
-  }
+  switch (action.type) {
+  case 'SET_BATTLE':
+    return action.payload
 
-  return state
+  case 'END_BATTLE':
+    return null
+
+  default:
+    return state
+  }
 }
 
 export default battle

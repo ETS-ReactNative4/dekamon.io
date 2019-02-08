@@ -13,3 +13,7 @@ export function randomArray(array) {
 export function randomPop(array) {
   return array.splice(Math.floor(Math.random() * array.length), 1)[0]
 }
+
+export function cloneArrayOfObjects(array) {
+  return array.map(object => Object.assign({}, object))
+}

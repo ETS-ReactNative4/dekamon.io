@@ -1,6 +1,8 @@
 export default {
   worldWidth: 18,
   worldHeight: 10,
+  battleWidth: 12,
+  battleHeight: 12,
   availableBiomes: [
     // 'clay',
     'grass_01',

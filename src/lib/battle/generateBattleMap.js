@@ -28,3 +28,9 @@ function generateBattleMap() {
 }
 
 export default generateBattleMap
+
+export const VOID_TILE = 0
+export const EMPTY_TILE = 1
+export const ALLY_START_TILE = 2
+export const ENNEMY_START_TILE = 3
+export const BLOCKED_TILE = 4
