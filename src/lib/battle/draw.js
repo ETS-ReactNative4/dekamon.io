@@ -14,14 +14,19 @@ function draw(_) {
 
   return loadImages(imageSourcesToLoad)
   .then(images => {
+    const tileMargin = battleTileSize / 15
+
+    _.fillStyle = '#ffed89'
+    _.fillRect(0, 0, _.canvas.width, _.canvas.height)
+    _.fillStyle = '#fff2aa'
+
     battleMap.forEach((row, y) => {
       row.forEach((column, x) => {
-        _.fillStyle = '#ffed89'
         _.fillRect(
-          x * battleTileSize,
-          y * battleTileSize,
-          battleTileSize,
-          battleTileSize
+          x * battleTileSize + tileMargin,
+          y * battleTileSize + tileMargin,
+          battleTileSize - 2 * tileMargin,
+          battleTileSize - 2 * tileMargin
         )
       })
     })

@@ -44,7 +44,7 @@ class Battle extends React.Component {
 
   render() {
     return (
-      <div ref={this.containerRef} className="Battle relative x5">
+      <div ref={this.containerRef} className="Battle h-100 x5">
         <canvas
           ref={this.canvasRef}
           className="Battle-canvas no-select"

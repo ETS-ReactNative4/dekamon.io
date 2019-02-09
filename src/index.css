@@ -17,3 +17,7 @@ html {
 .no-select {
   user-select: none;
 }
+
+.h-100 {
+  height: 100%;
+}
